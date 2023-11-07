@@ -32,7 +32,7 @@ file(GLOB SOURCES
     "*.cpp"
     "*.c"
 )
-add_executable(Snake main.cpp)
+add_executable(Snake main.cpp food.c)
 target_link_libraries(Snake ${SDL2_LIBRARIES})
 
 

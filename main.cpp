@@ -1,5 +1,10 @@
 #include "SDL.h"
 
+//initialize SDL window
+//ruft gameInit auf
+//uninitialize SDL
+
+
 int main(int argc, char *argv[])
 {
   SDL_Init(SDL_INIT_VIDEO);
@@ -22,6 +27,6 @@ int main(int argc, char *argv[])
 
   SDL_DestroyWindow(window);
   SDL_Quit();
-
+  
   return 0;
 }
