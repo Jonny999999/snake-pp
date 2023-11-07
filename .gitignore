@@ -1,0 +1,34 @@
+# General
+*.swp
+
+# Build and output directories
+build/
+bin/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeSettings.json
+cmake_install.cmake
+compile_commands.json
+
+# Visual Studio Code specific files
+.vscode/
+*.code-workspace
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+
+# Libraries
+*.a
+*.lib
+
+# Ignore any backup files
+*~
