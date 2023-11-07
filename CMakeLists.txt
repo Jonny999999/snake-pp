@@ -19,7 +19,6 @@ endif()
 # --- Locate SDL2 ---
 # Uses SDL2_DIR on Windows, on Linux it's found automatically
 find_package(SDL2 REQUIRED) 
-include_directories(${SDL2_INCLUDE_DIRS})
 
 
 #--- Include directories ---

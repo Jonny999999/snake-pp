@@ -29,6 +29,7 @@ compile_commands.json
 # Libraries
 *.a
 *.lib
+SDL2
 
 # Ignore any backup files
 *~
