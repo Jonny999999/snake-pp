@@ -22,20 +22,20 @@ find_package(SDL2 REQUIRED)
 
 
 #--- Include directories ---
-include_directories(${SDL2_INCLUDE_DIRS} ./)
+include_directories(${SDL2_INCLUDE_DIRS} ./include ./src)
 
 
 # --- Source files ---
 # Add all used source files here:
 set(SOURCES
-    main.cpp
-    config.c
-    food.c
-    game.c
-    input.c
-    menu.c
-    render.c
-    snake.c
+    src/main.cpp
+    src/config.c
+    src/food.c
+    src/game.c
+    src/input.c
+    src/menu.c
+    src/render.c
+    src/snake.c
 )
 
 
