@@ -1,4 +1,4 @@
-void startScreen();
+void showStartScreen();
 //zum Starten Enter drücken
 //optional: "E" eingeen für Settings
 
@@ -10,3 +10,5 @@ void menuNavigate();
 
 void showSettings();     //optional
     //Menü zum Auswählen über Tastaturbefehle
+
+void menuHandleInput();

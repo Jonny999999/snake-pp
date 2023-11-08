@@ -26,13 +26,20 @@ include_directories(${SDL2_INCLUDE_DIRS} ./)
 
 
 # --- Source files ---
-# Note: When new files are added, CMake has to be re-run
-# Alternatively, list files manually here
-file(GLOB SOURCES
-    "*.cpp"
-    "*.c"
+# Add all used source files here:
+set(SOURCES
+    main.cpp
+    config.c
+    food.c
+    game.c
+    input.c
+    menu.c
+    render.c
+    snake.c
 )
-add_executable(Snake main.cpp food.c)
+
+
+add_executable(Snake ${SOURCES})
 target_link_libraries(Snake ${SDL2_LIBRARIES})
 
 

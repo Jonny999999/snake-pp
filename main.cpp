@@ -1,5 +1,9 @@
 #include "SDL.h"
 
+extern "C" {
+#include "food.h"
+}
+
 //initialize SDL window
 //ruft gameInit auf
 //uninitialize SDL
@@ -23,10 +27,11 @@ int main(int argc, char *argv[])
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 
-  SDL_Delay(3000);
+  SDL_Delay(1000);
 
   SDL_DestroyWindow(window);
   SDL_Quit();
-  
+
+ placeFood(3); 
   return 0;
 }
