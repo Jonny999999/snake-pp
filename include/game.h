@@ -10,11 +10,20 @@ typedef enum gameState_t
     RUNNING
 } gameState_t;
 
+typedef struct portal_t
+{
+  int posX, posY;
+  int targetX, targetY;
+
+  char * color;
+} portal_t;
+
 typedef struct gameData_t
 {
     snake_t snake;
     int mapCollisions[MAX_MAP_SIZE][MAX_MAP_SIZE]; // Position der Wände
-    int mapPortals[MAX_MAP_SIZE][MAX_MAP_SIZE];    // Position der Portale
+    portal_t mapPortals[MAX_PORTALS];       
+    int mapPortalCount;   // Anzahl der Portale
 
     int foodX, foodY;   // Positon des Futters (es gibt immer nur 1 Futter)
     int lifesRemaining; // implementieren wir nicht!!
@@ -27,20 +36,26 @@ typedef struct gameData_t
 extern gameData_t game;
 
 void gameInit();
+// berechnet BlockSizePx: windowSize/mapWidth
 // ruft snakeInit auf
-// ruft place Food auf
+// ruft placeFood auf
+// platziert Wände
 
-void handleCollision();
+bool checkIsCollided();
 // Überprüft, ob Snake mit Gegenstand/Wand kollidiert ist
+// if true -> gibt 1 an runGameCycle zurück
+
 
 void handlePortals(); // optional
 // Prüft, ob Snake sich auf einem Portal befindet
+//if true: snakeSetHeadPos auf
 
 void runGameCycle();
 // macht immer: handleKeyboardEvents();
+// optional: ruft checkCollision() auf
+// ruft placeFood() auf
+// ruft checkEaten() auf
+// if checkEaten then snakeGrow()
 // if TickDue: Snakemove(), TickTimerReset
-// optional: ruft checkCollision auf
-// ruft place food auf
-// ruft checkEaten auf
-// if checkEaten then snakeGrow
-// ruft snakeMove auf
+// ruft snakeMove() auf
+//ruft am Ende vom gameCycle renderGame() auf

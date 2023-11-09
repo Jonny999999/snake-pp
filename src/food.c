@@ -1,4 +1,5 @@
 #include "food.h"
+#include <stdbool.h>
 
 // platziert zufällig (mit bestimmtem Algorithmus) Fressen auf dem Spielfeld
 void placeFood(int count)
@@ -7,7 +8,7 @@ void placeFood(int count)
 }
 
 // Überprüft, ob Snake gefressen hat
-void ckeckEaten()
+bool ckeckEaten()
 {
-    return;
+    return 0;
 }

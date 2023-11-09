@@ -1,14 +1,13 @@
 void showStartScreen();
 //zum Starten Enter drücken
-//optional: "E" eingeen für Settings
+//optional: "E" eingeben für Settings
 
 void showLeaderboard();
 //zeigt die besten Spieldurchläufe inkl. Punktestand an
 
-void menuNavigate();
-//über Tastaturbefehle im Menü navigieren
-
 void showSettings();     //optional
-    //Menü zum Auswählen über Tastaturbefehle
+//startet Settungs-Menü
 
-void menuHandleInput();
+void menuHandleInput(int event);     //als Übergabeparameter: int(?) event -> welcher Datentyp hängt von SDL ab
+//switch case für welcher Modus
+//switch case für welche Taste gedrückt wurde

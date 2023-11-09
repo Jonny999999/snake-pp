@@ -1,6 +1,7 @@
 
 #pragma once
 #include <stdbool.h>
+#include "config.h"
 
 typedef enum snakeDirection_t
 {
@@ -16,19 +17,18 @@ typedef struct snake_t
     int headX;
     int headY; // aktuelle Position der Schlange
     snakeDirection_t direction;
-    int tail[512][2];
+    int tail[MAX_MAP_SIZE*MAX_MAP_SIZE][2];
     bool isAlive; // lebt die Schlange noch oder ist sie mit sich selbst kollidiert?
 } snake_t;
 
 void snakeInit();
 // Snake mit bestimmter Startlänge an Startposition erstellen
-// Speicherbereich reservieren
 
 void snakeGrow();
 // Snake wird um 1 Glied länger (nach Fressen)
 
 void snakeMove();
-// bewegt die Schlang einen Schritt in die aktuelle Richtung
+// bewegt die Schlange einen Schritt in die aktuelle Richtung
 // ruft lokale Variable dir von snakeSetDir auf
 
 void snakeSetDir(snakeDirection_t dir); // Richtung als Übergabeparameter

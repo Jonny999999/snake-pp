@@ -5,7 +5,9 @@ extern "C" {
 }
 
 //initialize SDL window
-//ruft gameInit auf
+//ruft showStartScreen
+//initialize game
+//main loop: processInputEvents, runGameCycle
 //uninitialize SDL
 
 
@@ -32,6 +34,5 @@ int main(int argc, char *argv[])
   SDL_DestroyWindow(window);
   SDL_Quit();
 
- placeFood(3); 
   return 0;
 }

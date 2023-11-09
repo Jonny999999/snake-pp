@@ -1,5 +1,9 @@
-void placeFood(int cnt);
-// platziert zufällig (mit bestimmtem Algorithmus) Fressen auf dem Spielfeld
+#include <stdbool.h>
 
-void ckeckEaten();
-// Überprüft, ob Snake gefressen hat
+void placeFood();
+// platziert zufällig (mit bestimmtem Algorithmus) Fressen auf dem Spielfeld
+// darf nicht auf der Schlange oder auf Wänden sein
+
+bool ckeckEaten();
+// Überprüft, ob Snake gefressen hat -> true wenn gefressen
+// Vergleich mit gameData_t foodX, foodY
