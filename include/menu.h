@@ -1,3 +1,5 @@
+#pragma once
+
 void showStartScreen();
 //zum Starten Enter drücken
 //optional: "E" eingeben für Settings

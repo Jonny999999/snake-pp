@@ -8,7 +8,7 @@ void placeFood(int count)
 }
 
 // Überprüft, ob Snake gefressen hat
-bool ckeckEaten()
+bool checkEaten()
 {
     return 0;
 }

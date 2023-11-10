@@ -3,6 +3,9 @@
 // global configuration macros
 #define MAX_MAP_SIZE 10
 #define MAX_MAP_FIELDS (MAX_MAP_SIZE*MAX_MAP_SIZE)
+// logging settings
+#define DEBUG_OUTPUT_ENABLED
+#define INFO_OUTPUT_ENABLED
 
 // struct for storing game configuration
 typedef struct config_t

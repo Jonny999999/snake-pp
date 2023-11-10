@@ -1,3 +1,5 @@
+#pragma once
+
 void processInputEvent();
 //wird von SDL aufgerufen, wenn Taste gedrückt wurde
 //bekommt Info darüber, welche Taste gedrückt wurde

@@ -1,5 +1,6 @@
 #include "map.h"
 #include "game.h"
+#include "common.h"
 
 // generate random map based on difficulty level
 map_t generateMap(int difficulty)
@@ -12,6 +13,7 @@ map_t generateMap(int difficulty)
 // search and load map by name (if not found loads default map)
 void loadMapByName(char *name)
 {
+    LOGI("map: loading map %s", name);
     return;
     // TODO add map presets
 }
