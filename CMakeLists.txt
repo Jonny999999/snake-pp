@@ -36,6 +36,7 @@ set(SOURCES
     src/menu.c
     src/render.c
     src/snake.c
+    src/map.c
 )
 
 
