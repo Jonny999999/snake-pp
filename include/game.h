@@ -5,6 +5,7 @@
 #include "config.h"
 #include "map.h"
 
+
 // Enum that defines the current game state
 typedef enum gameState_t
 {
@@ -18,32 +19,32 @@ typedef enum gameState_t
 // Struct that stores all data of the running game (all game-related functions access it globally)
 typedef struct gameData_t
 {
-  snake_t snake;
-  map_t map;          // definition der geladenen karte
-  bool mapIsLoaded; // true when config.map is valid
-  int foodX, foodY;   // Positon des Futters (es gibt immer nur 1 Futter)
-  int lifesRemaining; // implementieren wir nicht!!
-  int timestampLastCycle;
-  gameState_t gameState;
+  snake_t snake;      // data describing snake
+  map_t map;          // loaded map
+  bool mapIsLoaded;   // true when game.map is valid
+  int foodX, foodY;   // current position of food
+  int lifesRemaining; // not implemented
+  int timestampLastCycle; // time last game cycle started
+  gameState_t gameState;  // state the game is in
 } gameData_t;
 
 // global struct for storing all game data (defined in game.c)
 extern gameData_t game;
 
+
+// run once at game start and does the following:
+// - init snake
+// - load map
+// - place initial food
 void gameInit();
-// berechnet BlockSizePx: windowSize/mapWidth
-// ruft snakeInit auf
-// ruft placeFood auf
-// platziert Wände
 
-void handlePortals(); //(local)
-// Prüft, ob Snake sich auf einem Portal befindet
-//if true: snakeSetHeadPos auf
 
+// when snake head is on a portal-input, sets snake head to portal-target
+void handlePortals(); //(ran in gameCycle)
+
+
+// function that is repeatedly run at every game tick
+// - moves snake to next position
+// - handles collision, portals, food
+// - triggers frame update (render.c)
 void runGameCycle();
-// checkCollision() auf
-// ruft placeFood() auf
-// ruft checkEaten() auf
-// if checkEaten then snakeGrow()
-// Snakemove(), TickTimerReset
-//ruft am Ende vom gameCycle renderGame() auf
