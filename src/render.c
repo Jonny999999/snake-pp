@@ -47,7 +47,7 @@ void renderGame(){
 
 	SDL_DestroyWindow(window);*/
 
-    	SDL_Init(SDL_INIT_VIDEO);
+/*    	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_Window* window = SDL_CreateWindow
        ("Ein SDL2-Fenster", // Name des Fensters
@@ -58,7 +58,32 @@ void renderGame(){
 	SDL_Delay(30000); // Das Fenster bleibt drei Sekunden 
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+*/
+    // Initialisiere SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
+        return 1;
+    }
 
+    // Erstelle ein SDL-Fenster
+    SDL_Window* window = SDL_CreateWindow("Ein SDL2-Fenster", 10, 25, 640, 480, SDL_WINDOW_OPENGL);
+    if (window == NULL) {
+        printf("Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    // Warte drei Sekunden
+    SDL_Delay(3000);
+
+    // Ändere die Fenstergröße auf 840x840
+    SDL_SetWindowSize(window, 840, 840);
+
+    // Warte drei Sekunden
+    SDL_Delay(3000);
+
+    // Zerstöre das Fenster und beende SDL
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return;
 }
