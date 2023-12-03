@@ -92,8 +92,10 @@ void runGameCycle()
         // show leaderboard when collided
         // TODO consider game.lifesRemaining and reset if still good?
         LOGI("game: collided with wall or self! => show leaderboard\n");
-        game.gameState = MENU;
-        showLeaderboard();
+        LOGI("DEBUG: collision currently disabled, game will continue in 1s...\n");
+        DELAY(1000);
+        //game.gameState = MENU; //TODO add config.collisionEnabled option?
+        //showLeaderboard();
         return;
     }
 
@@ -108,7 +110,7 @@ void runGameCycle()
     }
 
     //--- update frame ---
-    renderGame();
-    //printMap(game.map); (render game to console)
+    //renderGame();
+    printMap(game.map); //render game to console
     return;
 }

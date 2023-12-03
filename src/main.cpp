@@ -2,6 +2,9 @@
 
 extern "C" {
 #include "food.h"
+#include "game.h"
+#include "input.h"
+#include "render.h"
 }
 
 //initialize SDL window
@@ -11,8 +14,30 @@ extern "C" {
 //uninitialize SDL
 
 
+
+//==========================
+//====== enabled test ======
+//==========================
+//uncomment one test at a time to run the corresponding code in main()
+//#define TEST__FOOD_PLACEMENT
+//#define TEST__SDL_INPUT
+#define TEST__GAME_WITH_CONSOLE_OUTPUT
+
+
+
+
 int main(int argc, char *argv[])
 {
+  gameInit();
+
+
+#ifdef TEST__FOOD_PLACEMENT
+  // --- test food.c ---
+  startFoodPlacementTest();
+#endif
+
+
+
   SDL_Init(SDL_INIT_VIDEO);
 
   SDL_Window *window = SDL_CreateWindow(
@@ -29,7 +54,40 @@ int main(int argc, char *argv[])
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 
-  SDL_Delay(1000);
+
+
+
+
+#ifdef TEST__GAME_WITH_CONSOLE_OUTPUT
+  // --- test game with render to console ---
+  game.gameState = RUNNING;
+  while (game.gameState != EXIT)
+  {
+    processInputEvent();
+    SDL_Delay(600);
+    processInputEvent();
+    runGameCycle();
+  }
+#endif
+
+
+
+
+#ifdef TEST__SDL_INPUT
+  // --- test input.c ---
+  game.gameState = RUNNING;
+  while (game.gameState != EXIT)
+  {
+    processInputEvent();
+    SDL_Delay(100);
+  }
+#endif
+
+
+
+
+
+  SDL_Delay(500);
 
   SDL_DestroyWindow(window);
   SDL_Quit();
