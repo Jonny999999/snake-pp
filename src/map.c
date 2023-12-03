@@ -23,8 +23,6 @@ void renderGameToArray(int mapFrame[MAX_MAP_SIZE][MAX_MAP_SIZE], map_t map, snak
         mapFrame[map.portals[i].posY][map.portals[i].posX] = 2;
         mapFrame[map.portals[i].targetY][map.portals[i].targetX] = 3;
     }
-    // copy snake head
-    mapFrame[snake.headX][snake.headY] = 4;
     // copy snake tail
     for (int i = 0; i < snake.length; i++)
     {
@@ -32,6 +30,8 @@ void renderGameToArray(int mapFrame[MAX_MAP_SIZE][MAX_MAP_SIZE], map_t map, snak
     }
     // copy food
     mapFrame[game.foodY][game.foodX] = 6;
+    // copy snake head (last element -> head overwrites previous elements)
+    mapFrame[snake.headY][snake.headX] = 4;
     return;
 }
 
@@ -42,6 +42,7 @@ void renderGameToArray(int mapFrame[MAX_MAP_SIZE][MAX_MAP_SIZE], map_t map, snak
 //========================
 // function that prints a map to console (stdout)
 // note: currently also prints snake and food which may be bugged/unintended
+#define PRINT_SNAKE_ENABLED
 void printMap(map_t map)
 {
     LOGI("map: Preview of map '%s' (%dx%d):\n", map.name, map.width, map.height);
@@ -67,6 +68,12 @@ void printMap(map_t map)
                 break;
             case 3: printf("T"); // portal-out
                 break;
+#ifdef PRINT_SNAKE_ENABLED
+            case 4: printf("H"); // snake-head
+                break;
+            case 5: printf("S"); // snake-tail
+                break;
+#endif
             case 6: printf("F"); // food
                 break;
             default: printf(" "); // empty

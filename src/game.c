@@ -60,7 +60,7 @@ void handlePortals()
         portal_t p = game.map.portals[i]; //copy curren portal (code more readable)
         // is at portal
         if (game.snake.headX == p.posX && game.snake.headY == p.posY){
-            snakeSetHeadPos(p.posX, p.posY);
+            snakeSetHeadPos(p.targetX, p.targetY);
             LOGI("game: entered portal i=%d at x=%d, y=%d -> set head to x=%d y=%d\n", i, p.posX, p.posY, p.targetX, p.targetY);
             return;
         }
@@ -109,5 +109,6 @@ void runGameCycle()
 
     //--- update frame ---
     renderGame();
+    //printMap(game.map); (render game to console)
     return;
 }
