@@ -21,7 +21,6 @@ typedef struct snake_t
     bool isAlive; // lebt die Schlange noch oder ist sie mit sich selbst kollidiert?
 } snake_t;
 
-extern gameData_t game;
 
 void snakeInit();
 // Snake mit bestimmter Startlänge an Startposition erstellen

@@ -1,4 +1,5 @@
 #include "snake.h"
+#include "game.h"   //for access to global 'game' struct
 
 
 void snakeInit()
@@ -78,13 +79,13 @@ bool snakeIsAlive()
 
 void snakeSetHeadPos()
 {
-    switch(game.snake.direction)
+        switch(game.snake.direction)
     {   
         // DOWN
         case DOWN:
             game.snake.headX = game.snake.tail[0][0];
             game.snake.headY = game.snake.tail[0][1] + 1;
-            if(game.snake.headY >= game.snake.height) 
+            if(game.snake.headY >= game.map.height) 
                 game.snake.headY = 0;
             break;
 
@@ -92,23 +93,23 @@ void snakeSetHeadPos()
         case UP:
             game.snake.headX = game.snake.tail[0][0];
             game.snake.headY = game.snake.tail[0][1] - 1;
-            if(game.snake.headY <= 0)
-                game.snake.headY = game.snake.height - 1;
+            if(game.snake.headY < 0)
+                game.snake.headY = game.map.height - 1;
             break;
 
         // LEFT
         case LEFT:
             game.snake.headX = game.snake.tail[0][0] - 1;
             game.snake.headY = game.snake.tail[0][1];
-            if(game.snake.headX <= 0)
-                game.snake.headX = game.snake.weight - 1;
+            if(game.snake.headX < 0)
+                game.snake.headX = game.map.width - 1;
             break;
 
         // RIGHT
         case RIGHT:
             game.snake.headX = game.snake.tail[0][0] + 1;
             game.snake.headY = game.snake.tail[0][1];
-            if(game.snake.headX >= game.snake.weight) 
+            if(game.snake.headX >= game.map.width) 
                 game.snake.headX = 0;
             break;
     }
