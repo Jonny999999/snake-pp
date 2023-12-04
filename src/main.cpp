@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   while (game.gameState != EXIT)
   {
     processInputEvent();
-    SDL_Delay(600);
+    SDL_Delay(300);
     processInputEvent();
     runGameCycle();
   }
