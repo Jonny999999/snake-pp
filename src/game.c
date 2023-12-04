@@ -105,9 +105,10 @@ void runGameCycle()
     //--- handle food ---
     if (checkEaten()) {
         LOGI("game: picked up food at x=%d y=%d -> growing, placing food\n", game.foodX, game.foodY);
+        // NOTE: order of place and grow is relevant, otherwise function in food.c will access invalid memory
+        placeFood(); 
         snakeGrow();
-        placeFood();
-    }
+}
 
     //--- update frame ---
     //renderGame();
