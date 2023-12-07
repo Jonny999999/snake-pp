@@ -81,6 +81,8 @@ void snakeSetHeadPos(int xPos, int yPos)
 {
     game.snake.headX = xPos;
     game.snake.headY = yPos;
+    game.snake.tail[0][0] = xPos;
+    game.snake.tail[0][1] = yPos;
     return;
 }
 
