@@ -45,8 +45,8 @@ void snakeMove()
 {   
     int i = game.snake.length - 1;  // counter for snake moving
 
-    // update head position
-    snakeSetHeadPos();
+    // update head position automatically
+    snakeUpdateHeadPos();
 
     // tail part of[x,y][0,1] get coordinates of tail part before
     while(i)
@@ -77,9 +77,17 @@ bool snakeIsAlive()
     return true;
 }
 
-void snakeSetHeadPos()
+void snakeSetHeadPos(int xPos, int yPos)
 {
-        switch(game.snake.direction)
+    game.snake.headX = xPos;
+    game.snake.headY = yPos;
+    return;
+}
+
+
+void snakeUpdateHeadPos()
+{
+    switch(game.snake.direction)
     {   
         // DOWN
         case DOWN:

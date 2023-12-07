@@ -39,6 +39,9 @@ bool snakeIsAlive();
 // Überprüfen, ob Schlange noch lebt
 // Prüft Kollision mit sich selbst
 
-void snakeSetHeadPos(); // optional
+void snakeSetHeadPos(int xPos, int yPos); // optional
 // für handlePortals
-// generiert zufällige Zielsposition, wohin sich die Schlange nach Betreten eines Portals bewegt
+// generiert zufällige Zielposition(Übergabeparameter), wohin sich die Schlange nach Betreten eines Portals bewegt
+
+void snakeUpdateHeadPos();
+// berechnet neue Position des Kopfs anhand der aktuellen Bewegungsrichtung
