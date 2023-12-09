@@ -1,8 +1,8 @@
 #include "render.h"
+#include "SDL.h"
 
-void renderGame(){
-    //note: maybe re-use renderGameToArray() from map.h?
-    //e.g. as used in map.c for printMap()
+void renderGame(){}
+
 	/*SDL_Event event;
 	SDL_Window* window = NULL;
 	SDL_Surface* surface = NULL;
@@ -47,18 +47,8 @@ void renderGame(){
 
 	SDL_DestroyWindow(window);*/
 
-/*    	SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_Window* window = SDL_CreateWindow
-       ("Ein SDL2-Fenster", // Name des Fensters
-	10, 25, // Koordinaten auf dem Bildschirm in Pixeln, ausgehend von links oben 
-        840, 840, // Breite und Höhe des Fenster in Pixeln 
-	SDL_WINDOW_OPENGL);
-
-	SDL_Delay(30000); // Das Fenster bleibt drei Sekunden 
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-*/
+int CreateSDLWindow(){
     // Initialisiere SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
@@ -66,24 +56,20 @@ void renderGame(){
     }
 
     // Erstelle ein SDL-Fenster
-    SDL_Window* window = SDL_CreateWindow("Ein SDL2-Fenster", 10, 25, 640, 480, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("Snake", 350, 50, 800, 800, SDL_WINDOW_OPENGL);
     if (window == NULL) {
         printf("Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
 
     // Warte drei Sekunden
-    SDL_Delay(3000);
-
-    // Ändere die Fenstergröße auf 840x840
-    SDL_SetWindowSize(window, 840, 840);
-
-    // Warte drei Sekunden
-    SDL_Delay(3000);
+    SDL_Delay(10000);
 
     // Zerstöre das Fenster und beende SDL
     SDL_DestroyWindow(window);
     SDL_Quit();
 
-    return;
-}
+    return 0;
+	}
+
+
