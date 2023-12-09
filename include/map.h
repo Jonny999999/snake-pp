@@ -33,6 +33,10 @@ typedef struct map_t {
 } map_t;
 
 
+// calculates width in pixels of one block in the SDL window according to currently loaded map and configured window size and updates the config.
+void updateBlockSizePx();
+
+
 // search and load map by name in storedMaps[] (map.c) 
 // stops program when map not found!
 void loadMapByName(char *name);

@@ -106,6 +106,24 @@ map_t generateMap(int difficulty, int sizeX, int sizeY)
 
 
 //===========================
+//==== updateBlockSizePx ====
+//===========================
+// calculates width in pixels of one block in the SDL window according to currently loaded map and configured window size and updates the config.
+void updateBlockSizePx(){
+    // due to square pixel requirement
+    // larger dimension of the map has to be used if map is not square
+    if (game.map.height >= game.map.width) {
+        config.blockSizePx = config.windowSize / game.map.height;
+    }
+    else
+    {
+        config.blockSizePx = config.windowSize / game.map.width;
+    }
+}
+
+
+
+//===========================
 //====== loadMapByName ======
 //===========================
 // search and load map by name in storedMaps[] (map.c) 
@@ -142,6 +160,8 @@ void loadMap(map_t map)
     printMap(map);
 #endif
     game.map = map;
+    // update rendered pixel size (due to new map size)
+    updateBlockSizePx();
     game.mapIsLoaded = true;
     return;
 }
