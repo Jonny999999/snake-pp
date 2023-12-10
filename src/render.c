@@ -98,7 +98,7 @@ int CreateSDLWindow(){
     return 0;
 	}
 
-void DestroyWindow(){
+void DestroySDLWindow(){
       // Zerstöre das Fenster und beende SDL
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

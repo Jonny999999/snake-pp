@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     }
 
   } else {
-    DestroyWindow();
+    DestroySDLWindow();
     SDL_Quit(); 
     return 0;}
   }
