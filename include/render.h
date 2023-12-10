@@ -8,3 +8,5 @@ void renderGame();
 //erstellt aus Spielfeldstruktur die graphische Anzeige mit SDL-Framework
 
 int CreateSDLWindow();
+
+void DestroyWindwo();

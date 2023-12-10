@@ -9,13 +9,13 @@
 // global struct for storing all game data
 // default values where needed:
 gameData_t game = {
-    .snake.length = 0,
+    .snake.length = 2,
     .foodX = 0,
     .foodY = 0,
     .mapIsLoaded = false,
     .lifesRemaining = 1,
     .timestampLastCycle = 0,
-    .gameState = MENU
+    .gameState = RUNNING,
 };
 
 
@@ -108,6 +108,7 @@ void runGameCycle()
     }
 
     //--- update frame ---
+    
     renderGame();
     //printMap(game.map); (render game to console)
     return;
