@@ -38,6 +38,7 @@ void gameInit()
     //load default map if no map loaded yet
     if (!game.mapIsLoaded){
         loadMapByName("default");
+        //loadMapByName("empty");
         //loadMapByName("intermediate");
     }
     
@@ -92,8 +93,10 @@ void runGameCycle()
         // show leaderboard when collided
         // TODO consider game.lifesRemaining and reset if still good?
         LOGI("game: collided with wall or self! => show leaderboard\n");
-        game.gameState = MENU;
-        showLeaderboard();
+        LOGI("DEBUG: collision currently disabled, game will continue in 1s...\n");
+        DELAY(1000);
+        //game.gameState = MENU; //TODO add config.collisionEnabled option?
+        //showLeaderboard();
         return;
     }
 
@@ -103,13 +106,13 @@ void runGameCycle()
     //--- handle food ---
     if (checkEaten()) {
         LOGI("game: picked up food at x=%d y=%d -> growing, placing food\n", game.foodX, game.foodY);
+        // NOTE: order of place and grow is relevant, otherwise function in food.c will access invalid memory
+        placeFood(); 
         snakeGrow();
-        placeFood();
-    }
+}
 
     //--- update frame ---
-    
     renderGame();
-    //printMap(game.map); (render game to console)
+    printMap(game.map); //render game to console
     return;
 }

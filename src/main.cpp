@@ -20,6 +20,18 @@ extern "C"{
 //uninitialize SDL
 
 
+
+//==========================
+//====== enabled test ======
+//==========================
+//uncomment one test at a time to run the corresponding code in main()
+//#define TEST__FOOD_PLACEMENT
+//#define TEST__SDL_INPUT
+#define TEST__GAME_WITH_CONSOLE_OUTPUT
+
+
+
+
 int main(int argc, char *argv[])
 {
   gameInit();

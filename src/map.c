@@ -28,7 +28,7 @@ void renderGameToArray(int mapFrame[MAX_MAP_SIZE][MAX_MAP_SIZE], map_t map, snak
     {
         mapFrame[snake.tail[i][1]][snake.tail[i][0]] = 5;
     }
-    // copy food
+     // copy food
     mapFrame[game.foodY][game.foodX] = 6;
     // copy snake head (last element -> head overwrites previous elements)
     mapFrame[snake.headY][snake.headX] = 4;
@@ -205,6 +205,22 @@ static const map_t map_default = {
          .color = "blue"}},
     .portalCount = 1};
 
+
+static const map_t map_empty = {
+    .width = 20,
+    .height = 10,
+    .name = "empty",
+    .collisions = {},
+    .collisionCount = 0,
+    .portals = {
+        {.posX = 5,
+         .posY = 8,
+         .targetX = 7,
+         .targetY = 1,
+         .color = "blue"}},
+    .portalCount = 1};
+
+
 static const map_t map_intermediate = {
     .width = 15,
     .height = 15,
@@ -225,5 +241,5 @@ static const map_t map_intermediate = {
     .portalCount = 2};
 
 // global variables for accessing the stored maps
-const map_t *storedMaps[16] = {&map_default, &map_intermediate};
-const int storedMapsCount = 2;
+const map_t *storedMaps[16] = {&map_default, &map_empty, &map_intermediate};
+const int storedMapsCount = 3;
