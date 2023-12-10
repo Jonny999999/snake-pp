@@ -10,15 +10,27 @@ SDL_Renderer* renderer;
 SDL_Window* window;
 
 void renderGame(){
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+/*  SDL_RenderClear(renderer);
 
-  SDL_RenderClear(renderer);
+//Head__________________________________________________
+    SDL_SetRenderDrawColor(renderer, 0, 200, 100, 255);   //RGB-Farbe Kopf
+    SDL_Rect rect;
+    rect.x = (game.snake.headX * config.blockSizePx);   //Abstand links
+    rect.y = (game.snake.headY * config.blockSizePx);   //Abstand rechts
+    rect.w = config.blockSizePx;
+    rect.h = config.blockSizePx;
+
+    SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+
+
  //Snake-Baustein kreieren_________________________________________________________________
-  for(int i = game.snake.length; i>0; i--){
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);   //RGB-Farbe Schlange
+  for(int i = 1; i>game.snake.length; i++){
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);   //RGB-Farbe Tail
 
     SDL_Rect rect;
-    rect.x = (game.snake.headX * config.blockSizePx) + 350;   //Abstand links
-    rect.y = (game.snake.headY * config.blockSizePx) + 50;   //Abstand rechts
+    rect.x = (game.snake.tail[i][0] * config.blockSizePx);   //Abstand links
+    rect.y = (game.snake.tail[i][0] * config.blockSizePx);   //Abstand rechts
     rect.w = config.blockSizePx;
     rect.h = config.blockSizePx;
 
@@ -26,21 +38,22 @@ void renderGame(){
   }
 
   //Portal kreieren________________________________________________________________________
-    SDL_SetRenderDrawColor(renderer, 0, 100, 255, 255);   //RGB-Farbe Portal
+  for (int i = 0; i < game.map.portalCount; i++)
+    {
+        SDL_SetRenderDrawColor(renderer, 0, 100, 255, 255);   //RGB-Farbe Portal
+        rect.x = (game.map.portals[i].posX * config.blockSizePx);
+        rect.y = (game.map.portals[i].posY * config.blockSizePx);
 
-    SDL_Rect rect;
-    rect.x = 500;   //Abstand links
-    rect.y = 500;   //Abstand rechts
-    rect.w = config.blockSizePx;
-    rect.h = config.blockSizePx;
+        SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
+    }
 
-    SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
+
 
     //Food kreieren_________________________________________________________________________
     SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);   //RGB-Farbe Food
 
-    rect.x = (game.foodX*config.blockSizePx) + 350;   //Abstand links
-    rect.y = (game.foodY* config.blockSizePx) + 50;   //Abstand rechts
+    rect.x = (game.foodX*config.blockSizePx);   //Abstand links
+    rect.y = (game.foodY* config.blockSizePx);   //Abstand rechts
     rect.w = config.blockSizePx;
     rect.h = config.blockSizePx;
 
@@ -48,18 +61,18 @@ void renderGame(){
 
         SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
 
-    //Wand kreieren_________________________________________________________________________
+    //Collisions kreieren_________________________________________________________________________
     for(int i = 0; i < game.map.collisionCount; i++){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);   //RGB-Farbe Wand
 
-    rect.x = (game.map.collisions[i].posX*config.blockSizePx) + 350;   //Abstand links
-    rect.y = (game.map.collisions[i].posX* config.blockSizePx) + 50;   //Abstand rechts
+    rect.x = (game.map.collisions[i].posX*config.blockSizePx);   //Abstand links
+    rect.y = (game.map.collisions[i].posY* config.blockSizePx);   //Abstand rechts
     rect.w = config.blockSizePx;
     rect.h = config.blockSizePx;
 
     SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
     }
-
+*/
     SDL_RenderPresent(renderer);    //Fenster aktualisieren
 
 }

@@ -5,7 +5,7 @@
 config_t config = {
     .windowSize = 800,
     .blockSizePx = 800/10, //default map is 10x10 blocks
-    .cycleDurationMs = 300,
+    .cycleDurationMs = 1000,
     .difficulty = 1,
     .snakeDefaultLength = 2,
     .leaderboardFilename = ""
