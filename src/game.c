@@ -37,9 +37,8 @@ void gameInit()
     //----- load map -----
     //load default map if no map loaded yet
     if (!game.mapIsLoaded){
-        loadMapByName("default");
-        //loadMapByName("empty");
-        //loadMapByName("intermediate");
+        //loadMapByName("default");
+        loadMapByName(config.defaultMapName);
     }
     
     //--- place initial food ---
