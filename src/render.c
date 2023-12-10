@@ -11,7 +11,7 @@ SDL_Window* window;
 
 void renderGame(){
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-/*  SDL_RenderClear(renderer);
+  SDL_RenderClear(renderer);
 
 //Head__________________________________________________
     SDL_SetRenderDrawColor(renderer, 0, 200, 100, 255);   //RGB-Farbe Kopf
@@ -72,7 +72,7 @@ void renderGame(){
 
     SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
     }
-*/
+
     SDL_RenderPresent(renderer);    //Fenster aktualisieren
 
 }

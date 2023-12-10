@@ -9,4 +9,4 @@ void renderGame();
 
 int CreateSDLWindow();
 
-void DestroyWindwo();
+void DestroyWindow();

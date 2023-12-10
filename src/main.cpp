@@ -1,16 +1,11 @@
 #include <stdio.h>
 
-extern "C" {
-#include "food.h"
-}
-
-extern "C"{
-  #include "render.h"
-}
-
-extern "C"{
-  #include "game.h"
-  #include "common.h"
+extern "C"
+{
+#include "game.h"
+#include "common.h"
+#include "input.h"
+#include "render.h"
 }
 
 //initialize SDL window
@@ -46,11 +41,16 @@ int main(int argc, char *argv[])
   while(1){
   if(game.gameState != EXIT) {
     if (game.gameState == RUNNING) {
+        processInputEvent();
         DELAY(config.cycleDurationMs);
+        processInputEvent();
         runGameCycle();
     }
 
-  } else {SDL_Quit(); return 0;}
+  } else {
+    DestroyWindow();
+    SDL_Quit(); 
+    return 0;}
   }
 
 
