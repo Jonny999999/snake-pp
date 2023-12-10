@@ -8,5 +8,8 @@ config_t config = {
     .cycleDurationMs = 400,
     .difficulty = 1,
     .snakeDefaultLength = 2,
-    .leaderboardFilename = ""
+    .leaderboardFilename = "",
+    //.defaultMapName = "default"      //10x10
+    .defaultMapName = "intermediate" //15x15
+    //.defaultMapName = "empty"        //20x10
 };

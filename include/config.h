@@ -21,6 +21,7 @@ typedef struct config_t
   int difficulty;                  // 0-3   //Schwierigkeitsgrad
   int snakeDefaultLength;          // = 2    //Länge der Schlange
   const char *leaderboardFilename; // Dateiname des Leaderboards
+  const char *defaultMapName;      // Name der map die initial geladen wird
 } config_t;
 
 // global config struct defined in config.c
