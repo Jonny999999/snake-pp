@@ -46,6 +46,10 @@ void loadMapByName(char *name);
 void loadMap(map_t map);
 
 
+//load next map in stored maps (rotate through stored maps)
+void rotateMapNext();
+
+
 //return true when provided coordinate matches the position of a collision box
 bool checkCollides(map_t map, int x, int y);
 

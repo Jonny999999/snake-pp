@@ -30,10 +30,6 @@ gameData_t game = {
 void gameInit()
 {
     LOGI("game: initializing game...\n");
-    //----- snake -----
-    // defines initial values of game.snake
-    snakeInit(); //TODO assign return value to game.snake?
-
     //----- load map -----
     //load default map if no map loaded yet
     if (!game.mapIsLoaded){
@@ -41,6 +37,10 @@ void gameInit()
         loadMapByName(config.defaultMapName);
     }
     
+    //----- snake -----
+    // defines initial values of game.snake
+    snakeInit(); //TODO assign return value to game.snake?
+
     //--- place initial food ---
     placeFood();
     LOGI("game: placed initial food at x=%d, y=%d\n", game.foodX, game.foodY);

@@ -3,6 +3,8 @@
 #include "game.h"
 #include "common.h"
 
+int indexLoadedMap = 0;
+
 //===========================
 //==== renderGameToArray ====
 //===========================
@@ -167,6 +169,20 @@ void loadMap(map_t map)
 }
 
 
+//===========================
+//====== rotateMapNext ======
+//===========================
+//load next map in stored maps (rotate through stored maps)
+void rotateMapNext(){
+    if (indexLoadedMap >= storedMapsCount -1 ){
+        indexLoadedMap = 0;
+    } else {
+        indexLoadedMap ++;
+    }
+    loadMap(*storedMaps[indexLoadedMap]);
+}
+
+
 
 //===========================
 //====== checkCollides ======
@@ -208,7 +224,7 @@ static const map_t map_default = {
 
 static const map_t map_empty = {
     .width = 20,
-    .height = 10,
+    .height = 15,
     .name = "empty",
     .collisions = {},
     .collisionCount = 0,
@@ -225,7 +241,7 @@ static const map_t map_intermediate = {
     .width = 15,
     .height = 15,
     .name = "intermediate",
-    .collisions = {{8, 9}, {8, 8}, {4, 5}, {0, 1}, {9, 9}, {7, 5}, {4, 0}, {3, 0}, {12, 11}, {14, 13}},
+    .collisions = {{8, 9}, {8, 8}, {4, 6}, {0, 1}, {9, 9}, {7, 6}, {4, 0}, {3, 0}, {12, 11}, {14, 13}},
     .collisionCount = 10,
     .portals = {
         {.posX = 5,

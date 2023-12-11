@@ -4,6 +4,7 @@
 #include "game.h"
 #include "menu.h"
 #include "snake.h"
+#include "map.h"
 
 
 
@@ -18,16 +19,17 @@ void handleInput_runningState(SDL_Event event)
 {
     switch (event.key.keysym.sym)
     {
-    case SDLK_q:
+    case SDLK_q: // q: quit
         game.gameState = EXIT;
         break;
 
-    case SDLK_p:
+    case SDLK_p: // p: pause
     case SDLK_ESCAPE:
         game.gameState = PAUSED;
         showPauseScreen();
         break;
 
+        //--- control snake direction ---
     case SDLK_UP:
     case SDLK_w:
         snakeSetDir(UP);
@@ -48,13 +50,25 @@ void handleInput_runningState(SDL_Event event)
         snakeSetDir(RIGHT);
         break;
 
+    case SDLK_m: // m: cycle through maps
+        rotateMapNext();
+        break;
+
+    case SDLK_2: // 2: speed up game by increment
+        config.cycleDurationMs -= sqrt(config.cycleDurationMs) + 1;
+        if (config.cycleDurationMs < 20)
+            config.cycleDurationMs = 20;
+        break;
+
+    case SDLK_1: // 1: slow down game by increment
+        config.cycleDurationMs += 50;
+        break;
+
     default:
         LOGD("input: key %d is not handled in RUNNING mode\n", event.key.keysym.sym);
     }
     return;
 }
-
-
 
 //=============================
 //===== processInputEvent =====
