@@ -77,6 +77,37 @@ void renderGame(){
     SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
   }
 
+  //Augen___________________________________________________
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  rect.w = config.blockSizePx/4;    //Breite festlegen
+  rect.h = config.blockSizePx/4;    //Höhe festlegen
+  if (game.snake.direction == LEFT || game.snake.direction == RIGHT){
+  //oberes Auge  
+  rect.x = (game.snake.headX * config.blockSizePx) + config.blockSizePx/2.5;   //Abstand links
+  rect.y = (game.snake.headY * config.blockSizePx) + config.blockSizePx/5; 
+  SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+  //unteres Auge
+  rect.x = (game.snake.headX * config.blockSizePx) + config.blockSizePx/2.5;   //Abstand links
+  rect.y = (game.snake.headY * config.blockSizePx) + config.blockSizePx/1.8; 
+  SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+  
+  } else {
+  //linkes Auge  
+  rect.x = (game.snake.headX * config.blockSizePx) + config.blockSizePx/5;   //Abstand links
+  rect.y = (game.snake.headY * config.blockSizePx) + config.blockSizePx/2.5; 
+  SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+  //rechtes Auge
+  rect.x = (game.snake.headX * config.blockSizePx) + config.blockSizePx/1.8;   //Abstand links
+  rect.y = (game.snake.headY * config.blockSizePx) + config.blockSizePx/2.5; 
+  SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+  }
+
+  SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
+
+
+
+
+
   SDL_RenderPresent(renderer);    //Fenster aktualisieren
 
 }
