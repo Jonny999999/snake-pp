@@ -62,10 +62,12 @@ void renderGame(){
 
 
 //_______Food kreieren_________________________________________________________________________
-  SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255);   //RGB-Farbe Food
+  SDL_SetRenderDrawColor(renderer, 255, 200, 0, 255);   //RGB-Farbe Food
   rect.x = (game.foodX*config.blockSizePx);   //Abstand links
   rect.y = (game.foodY* config.blockSizePx);   //Abstand rechts
   SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+   SDL_SetRenderDrawColor(renderer, 255, 140, 0, 255);   //RGB-Farbe Food Rahmen
+     SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
 
 
 
@@ -75,9 +77,11 @@ void renderGame(){
     rect.x = (game.map.collisions[i].posX*config.blockSizePx);   //Abstand links
     rect.y = (game.map.collisions[i].posY* config.blockSizePx);   //Abstand rechts
     SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
+    SDL_SetRenderDrawColor(renderer, 80, 90, 100, 255);   //RGB-Farbe Wand-Rand
+    SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
   }
 
-  //Augen___________________________________________________
+//_________________Augen___________________________________________________
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   rect.w = config.blockSizePx/4;    //Breite festlegen
   rect.h = config.blockSizePx/4;    //Höhe festlegen
@@ -101,13 +105,9 @@ void renderGame(){
   rect.y = (game.snake.headY * config.blockSizePx) + config.blockSizePx/2.5; 
   SDL_RenderFillRect(renderer, &rect);    //Rechteck rendern
   }
-
   SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
 
-
-
-
-
+//______Fenster aktualisieren____________________________________________
   SDL_RenderPresent(renderer);    //Fenster aktualisieren
 
 }
