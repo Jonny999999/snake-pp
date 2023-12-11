@@ -14,17 +14,17 @@ void snakeInit()
     game.snake.length = config.snakeDefaultLength;
 
     // coordinates of head
-    game.snake.headX = 5; 
-    game.snake.headY = 5;
+    game.snake.headX = game.map.width / 2; 
+    game.snake.headY = game.map.height / 2;
 
     // movement direction
     game.snake.direction = 3;    // left
 
     // coordinates of tail
-    game.snake.tail[0][0] = 5;   // X-coordinate
-    game.snake.tail[0][1] = 5;   // Y-coordinate
-    game.snake.tail[1][0] = 4;   // X-coordinate
-    game.snake.tail[1][1] = 4;   // Y-coordinate
+    game.snake.tail[0][0] = game.snake.headX;   // X-coordinate
+    game.snake.tail[0][1] = game.snake.headY;   // Y-coordinate
+    game.snake.tail[1][0] = game.snake.headX - 1;   // X-coordinate
+    game.snake.tail[1][1] = game.snake.headY - 1;   // Y-coordinate
 
     // alive 
     game.snake.isAlive = true;
