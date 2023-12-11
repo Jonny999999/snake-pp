@@ -35,15 +35,25 @@ void renderGame(){
 //______Portal kreieren________________________________________________________________________
   for (int i = 0; i < game.map.portalCount; i++)
   {
+    switch(i) {     //Farben je nach Start-Portal-Nr.
+      case 0: SDL_SetRenderDrawColor(renderer, 90, 150, 255, 255); break;   //Start: hellblau
+      case 1: SDL_SetRenderDrawColor(renderer, 255, 150, 255, 255); break;      //Start: rosa
+      default: SDL_SetRenderDrawColor(renderer, 255, 150, 150, 255); break;      //Start: hellrot
+    }
+
     //Start-Portal
-    SDL_SetRenderDrawColor(renderer, 0, 191, 255, 255);   //RGB-Farbe Start-Portal
     rect.x = (game.map.portals[i].posX * config.blockSizePx);
     rect.y = (game.map.portals[i].posY * config.blockSizePx);
 
     SDL_RenderDrawRect(renderer, &rect);    //Rechteck rendern
 
+    switch(i) {   //Farben je nach Ausgangs-Portal-Nr.
+      case 0: SDL_SetRenderDrawColor(renderer, 45, 45, 255, 255); break;   //Ausgang: dunkelblau
+      case 1: SDL_SetRenderDrawColor(renderer, 204, 0, 204, 255); break;      //Ausgang: violett
+      default: SDL_SetRenderDrawColor(renderer, 255, 50, 0, 255); break;      //Ausgang: rot
+    }
+
     //Ausgangs-Portal
-    SDL_SetRenderDrawColor(renderer, 0, 0, 200, 255);   //RGB-Farbe Start-Portal
     rect.x = (game.map.portals[i].targetX * config.blockSizePx);
     rect.y = (game.map.portals[i].targetY * config.blockSizePx);
 
