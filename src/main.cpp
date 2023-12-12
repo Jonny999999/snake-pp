@@ -54,11 +54,10 @@ int main(int argc, char *argv[])
         if (now - game.timestampLastCycle > config.cycleDurationMs){
           game.timestampLastCycle = now;
           runGameCycle();
-        } else{
-          DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
-          processInputEvent();
         }
     }
+    DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
+    processInputEvent();
   }
 
 
