@@ -1,7 +1,9 @@
 #include "menu.h"
+#include "game.h"
 
 
 void showStartScreen(){
+    game.gameState = RUNNING;
     return;
 }
 
