@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 extern "C"
 {
@@ -38,21 +39,30 @@ int main(int argc, char *argv[])
   }
   CreateSDLWindow();
 
-  while(1){
-  if(game.gameState != EXIT) {
-    if (game.gameState == RUNNING) {
-        processInputEvent();
-        DELAY(config.cycleDurationMs);
-        processInputEvent();
-        runGameCycle();
-    }
 
-  } else {
-    DestroySDLWindow();
-    SDL_Quit(); 
-    return 0;}
+
+
+
+  time_t now;
+  now = clock(); // Timer startet
+  game.timestampLastCycle = now;
+
+  while(game.gameState != EXIT) {
+    if (game.gameState == RUNNING) {
+        now = clock(); // Timer startet
+
+        if (now - game.timestampLastCycle > config.cycleDurationMs){
+          game.timestampLastCycle = now;
+          runGameCycle();
+        } else{
+          DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
+          processInputEvent();
+        }
+    }
   }
 
 
+  DestroySDLWindow();
+  SDL_Quit();
   return 0;
 }
