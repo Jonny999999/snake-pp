@@ -115,8 +115,6 @@ void renderGame(){
 
 
 int CreateSDLWindow(){
-
-
     // Erstelle ein SDL-Fenster
   game.window = SDL_CreateWindow("Snake", 350, 50, config.windowSize, config.windowSize, SDL_WINDOW_OPENGL);
     if (game.window == NULL) {
