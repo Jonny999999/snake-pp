@@ -4,6 +4,7 @@
 #include "snake.h"
 #include "config.h"
 #include "map.h"
+#include "SDL.h"
 
 
 // Enum that defines the current game state
@@ -25,6 +26,8 @@ typedef struct gameData_t
   int foodX, foodY;   // current position of food
   int lifesRemaining; // not implemented
   int timestampLastCycle; // time last game cycle started
+  SDL_Renderer* renderer; // used by render.c and menu.c
+  SDL_Window *window;     // used by render.c and menu.c
   gameState_t gameState;  // state the game is in
 } gameData_t;
 
