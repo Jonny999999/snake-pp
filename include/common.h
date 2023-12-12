@@ -50,4 +50,4 @@
 // macro to get time in milliseconds
 #define GET_TIME_MS() get_current_time()
 // defined in common.c due to differences with windows and other systems
-uint64_t get_current_time();
+int64_t get_current_time();
