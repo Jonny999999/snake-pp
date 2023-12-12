@@ -44,12 +44,12 @@ int main(int argc, char *argv[])
 
 
   time_t now;
-  now = clock(); // Timer startet
+  now = clock()*1000/CLOCKS_PER_SEC; // Timer startet
   game.timestampLastCycle = now;
 
   while(game.gameState != EXIT) {
     if (game.gameState == RUNNING) {
-        now = clock(); // Timer startet
+        now = clock()*1000/CLOCKS_PER_SEC; // Timer startet
 
         if (now - game.timestampLastCycle > config.cycleDurationMs){
           game.timestampLastCycle = now;
@@ -59,6 +59,32 @@ int main(int argc, char *argv[])
     DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
     processInputEvent();
   }
+
+/*  time_t t;
+
+  long long ms = time(NULL) *1000;
+  game.timestampLastCycle = ms;
+
+  printf("timestamp: %lld",game.timestampLastCycle);
+  printf("ms: %lld",ms);
+
+  while(game.gameState != EXIT) {
+    if (game.gameState == RUNNING) {
+        ms = time(NULL) *1000; // Timer startet
+      
+        printf("ms2: %lld", ms);
+
+        if (ms - game.timestampLastCycle > config.cycleDurationMs){
+
+          game.timestampLastCycle = ms;
+          runGameCycle();
+        }
+    }
+    DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
+    processInputEvent();
+  }*/
+
+
 
 
   DestroySDLWindow();
