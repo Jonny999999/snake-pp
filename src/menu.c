@@ -8,10 +8,12 @@ void showStartScreen(){
 }
 
 void showLeaderboard(){
+    game.gameState = EXIT;
     return;
 }
 
 void showPauseScreen(){
+    game.gameState = PAUSED;
     return;
 }
 
