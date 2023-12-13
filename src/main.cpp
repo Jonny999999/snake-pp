@@ -44,14 +44,16 @@ int main(int argc, char *argv[])
 
 
   time_t now;
-  now = clock()*1000/CLOCKS_PER_SEC; // Timer startet
+  now = GET_TIME_MS(); // Timer startet
   game.timestampLastCycle = now;
+  int diff;
 
   while(game.gameState != EXIT) {
     if (game.gameState == RUNNING) {
-        now = clock()*1000/CLOCKS_PER_SEC; // Timer startet
+        now = GET_TIME_MS(); // Timer startet
+        diff = now-game.timestampLastCycle;
 
-        if (now - game.timestampLastCycle > config.cycleDurationMs){
+        if (diff > config.cycleDurationMs){
           game.timestampLastCycle = now;
           runGameCycle();
         }
