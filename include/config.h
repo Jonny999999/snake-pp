@@ -1,11 +1,14 @@
 #pragma once
 
 // global configuration macros
-#define MAX_MAP_SIZE 10
+#define MAX_MAP_SIZE 20
 #define MAX_MAP_FIELDS (MAX_MAP_SIZE*MAX_MAP_SIZE)
+
 // logging settings
 #define DEBUG_OUTPUT_ENABLED
 #define INFO_OUTPUT_ENABLED
+
+
 
 // struct for storing game configuration
 typedef struct config_t
@@ -18,6 +21,7 @@ typedef struct config_t
   int difficulty;                  // 0-3   //Schwierigkeitsgrad
   int snakeDefaultLength;          // = 2    //Länge der Schlange
   const char *leaderboardFilename; // Dateiname des Leaderboards
+  const char *defaultMapName;      // Name der map die initial geladen wird
 } config_t;
 
 // global config struct defined in config.c

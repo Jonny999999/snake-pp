@@ -21,6 +21,7 @@ typedef struct snake_t
     bool isAlive; // lebt die Schlange noch oder ist sie mit sich selbst kollidiert?
 } snake_t;
 
+
 void snakeInit();
 // Snake mit bestimmter Startlänge an Startposition erstellen
 
@@ -38,6 +39,9 @@ bool snakeIsAlive();
 // Überprüfen, ob Schlange noch lebt
 // Prüft Kollision mit sich selbst
 
-void snakeSetHeadPos(); // optional
+void snakeSetHeadPos(int xPos, int yPos); // optional
 // für handlePortals
-// generiert zufällige Zielsposition, wohin sich die Schlange nach Betreten eines Portals bewegt
+// generiert zufällige Zielposition(Übergabeparameter), wohin sich die Schlange nach Betreten eines Portals bewegt
+
+void snakeUpdateHeadPos();
+// berechnet neue Position des Kopfs anhand der aktuellen Bewegungsrichtung

@@ -1,7 +1,12 @@
-#include "SDL.h"
+#include <stdio.h>
+#include <time.h>
 
-extern "C" {
-#include "food.h"
+extern "C"
+{
+#include "game.h"
+#include "common.h"
+#include "input.h"
+#include "render.h"
 }
 
 //initialize SDL window
@@ -11,28 +16,80 @@ extern "C" {
 //uninitialize SDL
 
 
+
+//==========================
+//====== enabled test ======
+//==========================
+//uncomment one test at a time to run the corresponding code in main()
+//#define TEST__FOOD_PLACEMENT
+//#define TEST__SDL_INPUT
+#define TEST__GAME_WITH_CONSOLE_OUTPUT
+
+
+
+
 int main(int argc, char *argv[])
 {
-  SDL_Init(SDL_INIT_VIDEO);
+  gameInit();
 
-  SDL_Window *window = SDL_CreateWindow(
-    "SDL2Test",
-    SDL_WINDOWPOS_UNDEFINED,
-    SDL_WINDOWPOS_UNDEFINED,
-    640,
-    480,
-    0
-  );
+  // Initialisiere SDL
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    printf("SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
+    return 1;
+  }
+  CreateSDLWindow();
 
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderClear(renderer);
-  SDL_RenderPresent(renderer);
 
-  SDL_Delay(1000);
 
-  SDL_DestroyWindow(window);
+
+
+  time_t now;
+  now = GET_TIME_MS(); // Timer startet
+  game.timestampLastCycle = now;
+  int diff;
+
+  while(game.gameState != EXIT) {
+    if (game.gameState == RUNNING) {
+        now = GET_TIME_MS(); // Timer startet
+        diff = now-game.timestampLastCycle;
+
+        if (diff > config.cycleDurationMs){
+          game.timestampLastCycle = now;
+          runGameCycle();
+        }
+    }
+    DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
+    processInputEvent();
+  }
+
+/*  time_t t;
+
+  long long ms = time(NULL) *1000;
+  game.timestampLastCycle = ms;
+
+  printf("timestamp: %lld",game.timestampLastCycle);
+  printf("ms: %lld",ms);
+
+  while(game.gameState != EXIT) {
+    if (game.gameState == RUNNING) {
+        ms = time(NULL) *1000; // Timer startet
+      
+        printf("ms2: %lld", ms);
+
+        if (ms - game.timestampLastCycle > config.cycleDurationMs){
+
+          game.timestampLastCycle = ms;
+          runGameCycle();
+        }
+    }
+    DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
+    processInputEvent();
+  }*/
+
+
+
+
+  DestroySDLWindow();
   SDL_Quit();
-
   return 0;
 }
