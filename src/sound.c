@@ -6,6 +6,36 @@
 #include "sound.h"
 
 
+//--- global variables in sound.c ---
+// mutex to prevent segfaults while working with multiple threads
+pthread_mutex_t mutexSoundPlaying;
+// initialize audio only once
+static bool audioIsInitialized = false;
+
+
+
+//---------------------------
+//-------- initAudio --------
+//---------------------------
+// initialize SDL audio and mutex if not done already
+int initAudio()
+{
+    if (!audioIsInitialized)
+    {
+        //--- initialize mutex ---
+        pthread_mutex_init(&mutexSoundPlaying, NULL);
+        //--- initialize SDL audio ---
+        if (SDL_Init(SDL_INIT_AUDIO) < 0)
+        {
+            printf("SDL: could not init audio!\n");
+            return 1;
+        }
+        audioIsInitialized = true;
+        LOGI("sound: initialized SDL audio\n");
+    }
+    return 0;
+}
+
 
 //===========================
 //======== playSound ========
@@ -14,41 +44,24 @@
 //wait parameter blocks program until playback finished
 int playSound(const char *filePath, bool wait)
 {
-    //TODO add volume % option
-
-    //--- run async when wait is not set ---
-    if (!wait){
-        playSoundAsync(filePath);
-        return 0;
-    }
-
     //--- variables ---
-    static bool soundInitialized = false;
     static bool deviceExists = false;
     static uint8_t *wavBuffer;
     static SDL_AudioDeviceID deviceId;
     SDL_AudioSpec wavSpec;
     uint32_t wavLength;
 
-    //--- initialize SDL audio ---
-    if (!soundInitialized)
-    {
-        if (SDL_Init(SDL_INIT_AUDIO) < 0)
-        {
-            printf("SDL: could not init audio!\n");
-            return 1;
-        }
-        LOGI("sound: initialized SDL audio\n");
+    //--- initialize audio --- 
+    // initializes if not done already, exit if failed
+    if (initAudio()) return 1;
+
+    //--- run async when wait is not set ---
+    if (!wait){
+        return playSoundAsync(filePath);
     }
 
-    //--- close device and free memory of previous sound ---
-    //note: also cancels currently playing sound
-    if (deviceExists)
-    {
-        SDL_CloseAudioDevice(deviceId);
-        // free memory of previously played file
-        SDL_FreeWAV(wavBuffer);
-    }
+    //=== lock mutex ===
+    pthread_mutex_lock(&mutexSoundPlaying);
 
     //--- load file ---
     if (SDL_LoadWAV(filePath, &wavSpec, &wavBuffer, &wavLength) == NULL)
@@ -62,13 +75,20 @@ int playSound(const char *filePath, bool wait)
     deviceExists = true;
     SDL_QueueAudio(deviceId, wavBuffer, wavLength);
     SDL_PauseAudioDevice(deviceId, 0);
-    LOGI("sound: success, playing file '%s'\n", filePath);
+    LOGI("sound: playing file '%s'\n", filePath);
 
-    //--- wait until playback is finished --- (if desired)
+    //--- wait until playback is finished ---
     while (SDL_GetQueuedAudioSize(deviceId) > 0)
     {
         SDL_Delay(100);
     }
+
+    //--- close device and free memory ---
+    SDL_CloseAudioDevice(deviceId);
+    SDL_FreeWAV(wavBuffer);
+
+    //=== unlock mutex ===
+    pthread_mutex_unlock(&mutexSoundPlaying);
 
     return 0;
 }
@@ -95,12 +115,16 @@ void *playSoundThread(void *filePath) {
 // play audio file asynchronously
 // creates separate thread which runs playSound 
 // -> program does not get blocked by up to 300ms for loading the file
-void playSoundAsync(const char *filePath) {
+int playSoundAsync(const char *filePath) {
+    //--- initialize audio --- 
+    // initializes if not done already, exit if failed
+    if (initAudio()) return 1;
+
     //--- allocate memory for filePath ---
     char *filePathCopy = strdup(filePath);
     if (filePathCopy == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        return;
+        return 1;
     }
 
     //--- create new thread ---
@@ -108,8 +132,10 @@ void playSoundAsync(const char *filePath) {
     if (pthread_create(&thread, NULL, playSoundThread, filePathCopy) != 0) {
         fprintf(stderr, "Failed to create thread\n");
         free(filePathCopy);
+        return 1;
     } else {
         // detach the thread to clean up automatically when it exits
         pthread_detach(thread);
+        return 0;
     }
 }

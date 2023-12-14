@@ -69,8 +69,15 @@ void handlePortals()
         portal_t p = game.map.portals[i]; //copy curren portal (code more readable)
         // is at portal
         if (game.snake.headX == p.posX && game.snake.headY == p.posY){
+            //-- update head pos ---
             snakeSetHeadPos(p.targetX, p.targetY);
             LOGI("game: entered portal i=%d at x=%d, y=%d -> set head to x=%d y=%d\n", i, p.posX, p.posY, p.targetX, p.targetY);
+            //--- play sound ---
+            //playSoundAsync("../sounds/portal1_short.wav"); //too short
+            //playSoundAsync("../sounds/portal2_oscillate.wav"); //too much bass
+            //playSoundAsync("../sounds/space-gun.wav"); //too loud
+            playSoundAsync("../sounds/portal3_in-out.wav");
+            //playSoundAsync("../sounds/portal4_ramp.wav");
             return;
         }
     }
