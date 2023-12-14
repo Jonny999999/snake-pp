@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "food.h"
 #include "render.h"
+#include "sound.h"
 
 
 // global struct for storing all game data
@@ -18,6 +19,14 @@ gameData_t game = {
     .gameState = RUNNING,
 };
 
+
+// list of audio files randomly played when food eaten
+const char *eatSounds[] = {
+    "../sounds/eat-bite1.wav",
+    "../sounds/eat-bite2.wav",
+    "../sounds/eat-crunch1.wav",
+    "../sounds/eat-crunch2.wav"};
+#define EAT_SOUNDS_COUNT 4
 
 
 //========================
@@ -103,6 +112,8 @@ void runGameCycle()
     //--- handle food ---
     if (checkEaten()) {
         LOGI("game: picked up food at x=%d y=%d -> growing, placing food\n", game.foodX, game.foodY);
+        //play eat sound (picks random file from above list)
+        playSound(eatSounds[rand() % EAT_SOUNDS_COUNT], false);
         // NOTE: order of place and grow is relevant, otherwise function in food.c will access invalid memory
         placeFood(); 
         snakeGrow();
