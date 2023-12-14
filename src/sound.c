@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "sound.h"
+#include <pthread.h>
 #include "SDL.h"
 
 #include "common.h"
@@ -16,6 +16,12 @@ int playSound(const char *filePath, bool wait)
 {
     //TODO add volume % option
 
+    //--- run async when wait is not set ---
+    if (!wait){
+        playSoundAsync(filePath);
+        return 0;
+    }
+
     //--- variables ---
     static bool soundInitialized = false;
     static bool deviceExists = false;
@@ -23,7 +29,6 @@ int playSound(const char *filePath, bool wait)
     static SDL_AudioDeviceID deviceId;
     SDL_AudioSpec wavSpec;
     uint32_t wavLength;
-    
 
     //--- initialize SDL audio ---
     if (!soundInitialized)
@@ -36,7 +41,6 @@ int playSound(const char *filePath, bool wait)
         LOGI("sound: initialized SDL audio\n");
     }
 
-
     //--- close device and free memory of previous sound ---
     //note: also cancels currently playing sound
     if (deviceExists)
@@ -46,14 +50,12 @@ int playSound(const char *filePath, bool wait)
         SDL_FreeWAV(wavBuffer);
     }
 
-
     //--- load file ---
     if (SDL_LoadWAV(filePath, &wavSpec, &wavBuffer, &wavLength) == NULL)
     {
         printf("sound: file '%s' could not be loaded E:'%s'\n", filePath, SDL_GetError());
         return 1;
     }
-
 
     //--- play file ---
     deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
@@ -62,12 +64,52 @@ int playSound(const char *filePath, bool wait)
     SDL_PauseAudioDevice(deviceId, 0);
     LOGI("sound: success, playing file '%s'\n", filePath);
 
-
     //--- wait until playback is finished --- (if desired)
-    while (wait && SDL_GetQueuedAudioSize(deviceId) > 0)
+    while (SDL_GetQueuedAudioSize(deviceId) > 0)
     {
         SDL_Delay(100);
     }
 
     return 0;
+}
+
+
+
+
+//-------------------------------
+//------- playSoundThread -------
+//-------------------------------
+// thread that runs playSound() and exits when done
+void *playSoundThread(void *filePath) {
+    // run (slow) playSound function
+    playSound((const char *)filePath, true);
+    // Clean up and exit the thread
+    free(filePath);
+    pthread_exit(NULL);
+}
+
+
+//==========================
+//===== playSoundAsync =====
+//==========================
+// play audio file asynchronously
+// creates separate thread which runs playSound 
+// -> program does not get blocked by up to 300ms for loading the file
+void playSoundAsync(const char *filePath) {
+    //--- allocate memory for filePath ---
+    char *filePathCopy = strdup(filePath);
+    if (filePathCopy == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return;
+    }
+
+    //--- create new thread ---
+    pthread_t thread;
+    if (pthread_create(&thread, NULL, playSoundThread, filePathCopy) != 0) {
+        fprintf(stderr, "Failed to create thread\n");
+        free(filePathCopy);
+    } else {
+        // detach the thread to clean up automatically when it exits
+        pthread_detach(thread);
+    }
 }
