@@ -5,8 +5,9 @@
 #define MAX_MAP_FIELDS (MAX_MAP_SIZE*MAX_MAP_SIZE)
 
 // logging settings
-#define DEBUG_OUTPUT_ENABLED
+//#define DEBUG_OUTPUT_ENABLED
 #define INFO_OUTPUT_ENABLED
+//#define RENDER_GAME_TO_CONSOLE
 
 
 
