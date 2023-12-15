@@ -23,7 +23,7 @@ make
 - Place it in the root folder of this repository.  
 
 **Download SDL_ttf**
-- Download  `SDL2-devel-2.28.5-VC.zip` from https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-VC.zip
+- Download  `SDL2_ttf-devel-2.20.2-VC.zip` from https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-VC.zip
 - Unzip the file and rename the folder to `SDL2_ttf` (avoid unnecessary subfolder)
 - Place it in the root folder of this repository.  
 
