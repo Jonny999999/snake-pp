@@ -12,17 +12,30 @@ if(WIN32)
     set(SDL2_LIBS "${SDL2_FOLDER}/lib/x64/SDL2.lib")
     set(SDL2_DLLS "${SDL2_FOLDER}/lib/x64/SDL2.dll")
     set(SDL2_DIR "${SDL2_FOLDER}/cmake/")
-    # On Linux, the library is found automatically if installed
+
+    # Specify downloaded SDL2_ttf library folder location
+    set(SDL2_TTF_FOLDER "${CMAKE_SOURCE_DIR}/SDL2_ttf/")
+
+    set(SDL2_TTF_INCLUDE_DIRS "${SDL2_TTF_FOLDER}/include")
+    set(SDL2_TTF_LIBRARIES "${SDL2_TTF_FOLDER}/lib/x64/SDL2_ttf.lib")
+    set(SDL2_TTF_LIBS "${SDL2_TTF_FOLDER}/lib/x64/SDL2_ttf.lib")
+    set(SDL2_TTF_DLLS "${SDL2_TTF_FOLDER}/lib/x64/SDL2_ttf.dll")
+    set(SDL2_TTF_DIR "${SDL2_TTF_FOLDER}/cmake/")
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${SDL2_TTF_FOLDER}")
 endif()
+# Note: On Linux, the libraries are found automatically if installed
 
 
 # --- Locate SDL2 ---
 # Uses SDL2_DIR on Windows, on Linux it's found automatically
-find_package(SDL2 REQUIRED) 
-
+# Locate SDL2
+find_package(SDL2 REQUIRED)
+# Locate SDL_ttf
+#find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 #--- Include directories ---
-include_directories(${SDL2_INCLUDE_DIRS} ./include ./src)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS} ./include ./src)
 
 
 # --- Source files ---
@@ -43,12 +56,12 @@ set(SOURCES
 
 
 add_executable(Snake ${SOURCES})
-target_link_libraries(Snake ${SDL2_LIBRARIES})
+target_link_libraries(Snake ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES})
 
 
 # --- Copy SDL2 DLLs to the output folder on Windows ---
 if(WIN32)
-    foreach(DLL ${SDL2_DLLS})
+    foreach(DLL ${SDL2_DLLS} ${SDL_TTF_DLLS})
         add_custom_command(TARGET Snake POST_BUILD COMMAND
             ${CMAKE_COMMAND} -E copy_if_different ${DLL} $<TARGET_FILE_DIR:Snake>)
     endforeach()
