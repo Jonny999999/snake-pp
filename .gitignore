@@ -30,6 +30,7 @@ compile_commands.json
 *.a
 *.lib
 SDL2
+SDL2_ttf
 
 # Ignore any backup files
 *~

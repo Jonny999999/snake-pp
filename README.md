@@ -5,7 +5,7 @@ Development of the game Snake++ using C, C++ and SDK2 for the Software Engineeri
 ## Linux
 **Install tools and SDL2**
 ```bash
-pacman -S sdl2 sdl2_rrf
+pacman -S sdl2 sdl2_ttf
 pacman -S cmake gcc
 ```
 **Build**
@@ -21,6 +21,12 @@ make
 - Download  `SDL2-devel-2.28.5-VC.zip` from https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5
 - Unzip the file and rename the folder to `SDL2` (avoid unnecessary subfolder)
 - Place it in the root folder of this repository.  
+
+**Download SDL_ttf**
+- Download  `SDL2-devel-2.28.5-VC.zip` from https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-VC.zip
+- Unzip the file and rename the folder to `SDL2_ttf` (avoid unnecessary subfolder)
+- Place it in the root folder of this repository.  
+
 
 **Install compiler** (if not available already)  
 - download mingw:
