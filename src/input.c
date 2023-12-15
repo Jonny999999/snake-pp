@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "input.h"
 #include "common.h"
 #include "SDL.h"
