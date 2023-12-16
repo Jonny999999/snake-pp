@@ -7,6 +7,7 @@ extern "C"
 #include "common.h"
 #include "input.h"
 #include "render.h"
+#include "menu.h"
 }
 
 //initialize SDL window
@@ -29,7 +30,7 @@ extern "C"
 
 
 int main(int argc, char *argv[])
-{
+{ 
   gameInit();
 
   // Initialisiere SDL
@@ -37,8 +38,15 @@ int main(int argc, char *argv[])
     printf("SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
     return 1;
   }
-  CreateSDLWindow();
 
+  // Initialisiere SDL_ttl, um Text ausgeben zu können
+    if (TTF_Init() == -1) {
+    printf("SDL_ttf konnte nicht initialisiert werden! SDL_Error: %s\n");
+    return 1;
+  }
+
+
+  CreateSDLWindow();
 
 
 
@@ -49,6 +57,11 @@ int main(int argc, char *argv[])
   int diff;
 
   while(game.gameState != EXIT) {
+    if(game.gameState == MENU)
+    {   
+        manageMenu();
+    } 
+
     if (game.gameState == RUNNING) {
         now = GET_TIME_MS(); // Timer startet
         diff = now-game.timestampLastCycle;

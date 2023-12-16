@@ -4,6 +4,8 @@
 #include "snake.h"
 #include "food.h"
 #include "config.h"
+#include "menu.h"
+#include "common.h"
 #include <stdio.h>
 
 
@@ -113,6 +115,123 @@ void renderGame(){
 
 
 
+//--------------------------------------------------------------
+//-----------------START MENU-----------------------------------
+//--------------------------------------------------------------
+void renderStartMenu()
+{   
+
+
+    //--------------------
+    // only first loop
+    //--------------------
+    if(ttlStorage.lastTimeStep == 0)
+    {
+
+        
+        ttlStorage.ptrFont_200 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_200);
+        ttlStorage.ptrFont_30 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_30);
+
+
+        SDL_Color textColor1 = {255, 0, 255}; // rosa Text
+        SDL_Color textColor2 = {255, 200, 0}; // oranger Text
+        SDL_Color textColor3 = {0, 255, 0};   // grüner Text
+        SDL_Color textColor4 = {255, 0, 0}; // rot Text
+        SDL_Color textColor5 = {0, 255, 255};   // türkiser Text
+        SDL_Color textColor6 = {255, 255, 255}; // weißer Text
+
+        ttlStorage.textColour[0] = textColor1;
+        ttlStorage.textColour[1] = textColor2;
+        ttlStorage.textColour[2] = textColor3;
+        ttlStorage.textColour[3] = textColor4;
+        ttlStorage.textColour[4] = textColor5;
+        ttlStorage.textColour[5] = textColor6;
+        
+
+
+        
+        
+        // text in start screen
+        const char* textLines[] = {
+            "Snake++",
+            "In Pixeln bunt, sie schlaengelt flink,",
+            "Durch Mauern, Portale, ohne Blink.",
+            "Starte das Spiel, sei klug und schnell,",
+            "Die Schlange wartet, auf dein Pixel-Ziel!",
+            "-- ENTER --"
+        };
+
+
+        // render game name (SNAKE++) bigger than poem 
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_200, textLines[0], ttlStorage.textColour[0]);
+        ttlStorage.textTextures[0] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+
+        // render poem
+        for (int i = 1; i < (MAX_LINES_STARTSCREEN); ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[i], ttlStorage.textColour[i]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+        }
+
+        // render ENTER
+
+
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[MAX_LINES_STARTSCREEN], ttlStorage.textColour[5]);
+        ttlStorage.textTextures[MAX_LINES_STARTSCREEN] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+    }
+
+
+    //------------------------------
+    // is always performed
+    //-----------------------------
+    SDL_RenderClear(game.renderer);
+
+    int textWidth, textHeight;
+
+
+    // print game name
+    ttlStorage.textPrintPosition = (config.windowSize) / 9;   // print position for game name (SNAKE++)
+    SDL_QueryTexture(ttlStorage.textTextures[0], NULL, NULL, &textWidth, &textHeight);
+    SDL_Rect dstRect = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+    SDL_RenderCopy(game.renderer, ttlStorage.textTextures[0], NULL, &dstRect);
+    
+    // print poem    
+    ttlStorage.textPrintPosition = (config.windowSize) / 2.7;     // change print position for poem
+    for (int i = 1; i < (MAX_LINES_STARTSCREEN); ++i) {
+        int textWidth, textHeight;
+        SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+
+            
+        SDL_Rect dstRect = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+        SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+        ttlStorage.textPrintPosition += textHeight;             // increase print position
+
+        
+    }        
+    //print ENTER every second cycle
+    if(ttlStorage.showEnter)
+    {
+      ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
+      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_STARTSCREEN], NULL, NULL, &textWidth, &textHeight);
+      SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_STARTSCREEN], NULL, &dstRect1);
+    }
+    
+    
+    SDL_RenderPresent(game.renderer);
+    ttlStorage.lastTimeStep = GET_TIME_MS();
+    // show inital menu frame
+
+    
+    return;
+
+   
+}
+
+
 
 int CreateSDLWindow(){
     // Erstelle ein SDL-Fenster
@@ -132,6 +251,14 @@ int CreateSDLWindow(){
 
 void DestroySDLWindow(){
       // Zerstöre das Fenster und beende SDL
+
+    TTF_CloseFont(ttlStorage.ptrFont_30);
+    TTF_CloseFont(ttlStorage.ptrFont_200);
+
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
+
+    TTF_Quit();
+    SDL_Quit();
 }
+

@@ -16,7 +16,7 @@ gameData_t game = {
     .mapIsLoaded = false,
     .lifesRemaining = 1,
     .timestampLastCycle = 0,
-    .gameState = RUNNING,
+    .gameState = MENU,
 };
 
 

@@ -6,11 +6,51 @@
 //#include <Windows.h>
 
 
-void showStartScreen(){
+
+//define global struct for tllStorage values
+//default values defined here: (note: gets modified by render.c or menu.c)
+ttlData_t ttlStorage =
+{
+    .fontSize_30 = 30,
+    .fontSize_200 = 200,
+    .lastTimeStep = 0,
+    .cycleDuration = 500,
+    .showEnter = false
+};   
+
+// Default
+menus_t activeMenu = START;
+
+// is called by main function
+// choose between the selected menu-rendering functions
+void manageMenu()
+{
+    switch(activeMenu)
+    {
+        case START:
+            showStartScreen();
+            break;
+    }
+}
+
+
+void showStartScreen()
+{
     LOGI("menu: showing start-screen\n");
-    game.gameState = RUNNING;
+    time_t now =  GET_TIME_MS();
+    if(now > (ttlStorage.lastTimeStep + ttlStorage.cycleDuration))
+    {   
+        ttlStorage.showEnter = !ttlStorage.showEnter;       // is used to make ENTER blink
+        renderStartMenu();
+    }
+
+    //------------------------------------------------------------------------------------
+
     return;
 }
+
+
+
 
 void showLeaderboard(){
     LOGI("menu: showing leaderboard\n");
@@ -39,5 +79,31 @@ void showSettings(){
 
 void menuHandleInput(SDL_Event event){
     //compare 'handleInput_runningState(SDL_Event event)' in input.c
+    switch(activeMenu)
+    {
+    case START:
+        switch (event.key.keysym.sym)
+        {
+        case SDLK_q: // q: quit
+            game.gameState = EXIT;
+            break;
+
+        case SDLK_RETURN:   // Enter key  
+            game.gameState = RUNNING;
+            activeMenu = NONE;
+            // delete text
+            for (int i = 0; i < 5; ++i) 
+            {
+                SDL_DestroyTexture(ttlStorage.textTextures[i]);
+            }
+        }
+        break;
+
+        
+    case SETTINGS:
+        break;
+    }
+        
     return;
 }
+
