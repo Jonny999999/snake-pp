@@ -1,4 +1,11 @@
-Development of the game Snake++ using C, C++ and SDK2 for the Software Engineering course as part of our studies.
+# Snake++
+Development of the game "Snake" featuring portals, custom maps and sound effects.  
+Cross-platform compatibility using CMake, C, C++ and SDL2.  
+A project for the Software Engineering course as part of our studies.
+
+## Preview
+<img src="demo.jpg" width="70%">
+
 
 # Compilation
 
@@ -18,12 +25,12 @@ make
 
 ## Windows
 **Download SDL**
-- Download  `SDL2-devel-2.28.5-VC.zip` from https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5
+- Download  `SDL2-devel-2.28.5-VC.zip` from [github/libsdl-org](https://github.com/libsdl-org/SDL/releases/download/release-2.28.5/SDL2-devel-2.28.5-VC.zip)
 - Unzip the file and rename the folder to `SDL2` (avoid unnecessary subfolder)
 - Place it in the root folder of this repository.  
 
 **Download SDL_ttf**
-- Download  `SDL2_ttf-devel-2.20.2-VC.zip` from https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-VC.zip
+- Download  `SDL2_ttf-devel-2.20.2-VC.zip` from [github/libsdl-org](https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-VC.zip)
 - Unzip the file and rename the folder to `SDL2_ttf` (avoid unnecessary subfolder)
 - Place it in the root folder of this repository.  
 
@@ -46,17 +53,17 @@ See VS Code section
 
 # VS Code instructions
 ## Required extensions
-- Cmake 
-- CmakeTools
-- C/C++
+- [Cmake](https://open-vsx.org/extension/twxs/cmake)
+- [CmakeTools](https://open-vsx.org/extension/ms-vscode/cmake-tools)
+- [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 
-## setup
+## Setup
 - With CmakeTools installed open the project folder in VS Code
 - open cmd-prompt with `CTRL + SHIFT + P` run `cmake.build`
     - select kit (gcc or installed minGW compiler)  
 Alternatively use cmake related buttons in bottom toolbar (CMake: Kit, Build, [all]...)
 
-## compile
+## Compile
 - Use buttons in bottom toolbar (CMake: ... Build [BUG-BUTTON] [PLAY-BUTTON] ... )  
 You can also use:
 - `ctrl-F5` run without debugger
