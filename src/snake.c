@@ -62,7 +62,35 @@ void snakeMove()
 }
 
 void snakeSetDir(snakeDirection_t dir)
-{
+{   
+    // check, if snake should be move in opposite direction -> new direction stays old direction
+    switch(dir)
+    {
+        case DOWN:
+            if(game.snake.direction == UP)
+                return;
+            else    
+                break;
+
+        case UP:
+            if(game.snake.direction == DOWN)
+                return;
+            else    
+                break;
+
+        case LEFT:
+            if(game.snake.direction == RIGHT)
+                return;
+            else    
+                break;
+
+        case RIGHT:
+            if(game.snake.direction == LEFT)
+                return;
+            else    
+                break;
+
+    }
     game.snake.direction = dir;
     return;
 }

@@ -38,6 +38,7 @@ set(SOURCES
     src/snake.c
     src/map.c
     src/common.c
+    src/sound.c
 )
 
 
