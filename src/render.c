@@ -120,15 +120,9 @@ void renderGame(){
 //--------------------------------------------------------------
 void renderStartMenu()
 {   
-
-
-    //--------------------
-    // only first loop
-    //--------------------
+    //=========== only first loop ================
     if(ttlStorage.lastTimeStep == 0)
     {
-
-        
         ttlStorage.ptrFont_200 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_200);
         ttlStorage.ptrFont_30 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_30);
 
@@ -140,16 +134,12 @@ void renderStartMenu()
         SDL_Color textColor5 = {0, 255, 255};   // türkiser Text
         SDL_Color textColor6 = {255, 255, 255}; // weißer Text
 
-        ttlStorage.textColour[0] = textColor1;
-        ttlStorage.textColour[1] = textColor2;
-        ttlStorage.textColour[2] = textColor3;
-        ttlStorage.textColour[3] = textColor4;
-        ttlStorage.textColour[4] = textColor5;
-        ttlStorage.textColour[5] = textColor6;
-        
-
-
-        
+        ttlStorage.textColour[0] = textColor1;    // rosa
+        ttlStorage.textColour[1] = textColor2;    // orange
+        ttlStorage.textColour[2] = textColor3;    // grün
+        ttlStorage.textColour[3] = textColor4;    // rot
+        ttlStorage.textColour[4] = textColor5;    // türkis
+        ttlStorage.textColour[5] = textColor6;    // weiß
         
         // text in start screen
         const char* textLines[] = {
@@ -168,7 +158,7 @@ void renderStartMenu()
         SDL_FreeSurface(ttlStorage.textSurface);
 
         // render poem
-        for (int i = 1; i < (MAX_LINES_STARTSCREEN); ++i) 
+        for (int i = 1; i < (MAX_LINES_STARTSCREEN - 1); ++i) 
         {     
             ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[i], ttlStorage.textColour[i]);        
             ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
@@ -176,21 +166,16 @@ void renderStartMenu()
         }
 
         // render ENTER
-
-
-        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[MAX_LINES_STARTSCREEN], ttlStorage.textColour[5]);
-        ttlStorage.textTextures[MAX_LINES_STARTSCREEN] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[MAX_LINES_STARTSCREEN-1], ttlStorage.textColour[5]);
+        ttlStorage.textTextures[MAX_LINES_STARTSCREEN-1] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
         SDL_FreeSurface(ttlStorage.textSurface);
     }
 
 
-    //------------------------------
-    // is always performed
-    //-----------------------------
+    //=========== is always performerd ================
     SDL_RenderClear(game.renderer);
 
     int textWidth, textHeight;
-
 
     // print game name
     ttlStorage.textPrintPosition = (config.windowSize) / 9;   // print position for game name (SNAKE++)
@@ -200,35 +185,165 @@ void renderStartMenu()
     
     // print poem    
     ttlStorage.textPrintPosition = (config.windowSize) / 2.7;     // change print position for poem
-    for (int i = 1; i < (MAX_LINES_STARTSCREEN); ++i) {
-        int textWidth, textHeight;
+    for (int i = 1; i < (MAX_LINES_STARTSCREEN-1); ++i) {
         SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
 
-            
         SDL_Rect dstRect = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
         SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
         ttlStorage.textPrintPosition += textHeight;             // increase print position
-
-        
     }        
     //print ENTER every second cycle
     if(ttlStorage.showEnter)
     {
       ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
-      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_STARTSCREEN], NULL, NULL, &textWidth, &textHeight);
+      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_STARTSCREEN-1], NULL, NULL, &textWidth, &textHeight);
       SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
-      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_STARTSCREEN], NULL, &dstRect1);
+      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_STARTSCREEN-1], NULL, &dstRect1);
     }
     
-    
+    // update screen 
     SDL_RenderPresent(game.renderer);
     ttlStorage.lastTimeStep = GET_TIME_MS();
-    // show inital menu frame
 
+    return;
+}
+
+
+//--------------------------------------------------------------
+//-------------------SETTINGS-----------------------------------
+//--------------------------------------------------------------
+void renderSettings()
+{
+    //=========== only first loop ================
+    if(ttlStorage.lastTimeStep == 0)
+    {
+        ttlStorage.ptrFont_20 = TTF_OpenFont("../fonts/Prototype.ttf", ttlStorage.fontSize_20);
+
+        // text in start screen
+        const char* textLines[] = {
+            "Fuer Infos zum Gameplay, sowie einigen Shortcuts druecken Sie bitte F1",
+            " ",
+            //"Bitte geben Sie ihren Spielnamen ein: ",
+            "test",
+            "test",
+            "test",
+            "test",
+            "-- ENTER --"
+        };
+
+        // render setting screen
+        for (int i = 0; i < MAX_LINES_SETTINGS; ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLines[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+        }
+    }
+
+
+    //=========== is always performerd ================
+    SDL_RenderClear(game.renderer);
+
+    int textWidth, textHeight;
+
+    // print settings    
+    ttlStorage.textPrintPosition = 0;    // first print position
+    for (int i = 0; i < (MAX_LINES_SETTINGS - 1); ++i) {
+        
+        SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+
+        SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+        SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+        ttlStorage.textPrintPosition += textHeight;             // increase print position
+    }      
+
+    //print ENTER every second cycle
+    if(ttlStorage.showEnter)
+    {
+      ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
+      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, NULL, &textWidth, &textHeight);
+      SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, &dstRect1);
+    }  
     
+    // update screen 
+    SDL_RenderPresent(game.renderer);
+    ttlStorage.lastTimeStep = GET_TIME_MS();
+
     return;
 
-   
+}
+
+//--------------------------------------------------------------
+//-------------------INFO SCREEN--------------------------------
+//--------------------------------------------------------------
+void renderInfoScreen()
+{
+    //=========== only first loop ================
+    if(ttlStorage.lastTimeStep == 0)
+    {
+        // text in start screen
+        const char* textLines[] = {
+            "        Steuerung:         W  (nach oben)",
+            "                                  A  (nach links)",
+            "                                  S  (nach unten)",
+            "                                  D  (nach rechts) ",
+            "                 oder:         Pfeiltasten ",
+            " ",
+            " ",
+            "              Pause:         p",
+            "                oder:         Leertaste",
+            " ", 
+            " ",            
+            "Spiel verlassen:         q ",
+            " ",
+            " ",
+            " ",
+            "By Jonas Schoenberger, Johannes Graf und Julia Steinberger",
+            "-- ENTER --"
+        };
+
+        // render setting screen
+        for (int i = 0; i < MAX_LINE_INFOSCREEN; ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLines[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+        }
+    }
+
+
+    //=========== is always performerd ================
+    SDL_RenderClear(game.renderer);
+
+    int textWidth, textHeight;
+
+    // print settings    
+    ttlStorage.textPrintPosition = 0;    // first print position
+    for (int i = 0; i < (MAX_LINE_INFOSCREEN - 1); ++i) {
+        
+        SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+
+        SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+        SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+        ttlStorage.textPrintPosition += textHeight;             // increase print position
+    }        
+
+    //print ENTER every second cycle
+    if(ttlStorage.showEnter)
+    {
+      ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
+      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINE_INFOSCREEN-1], NULL, NULL, &textWidth, &textHeight);
+      SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINE_INFOSCREEN-1], NULL, &dstRect1);
+    }
+
+
+    // update screen 
+    SDL_RenderPresent(game.renderer);
+    ttlStorage.lastTimeStep = GET_TIME_MS();
+
+    return;
 }
 
 
@@ -252,6 +367,7 @@ int CreateSDLWindow(){
 void DestroySDLWindow(){
       // Zerstöre das Fenster und beende SDL
 
+    TTF_CloseFont(ttlStorage.ptrFont_20);
     TTF_CloseFont(ttlStorage.ptrFont_30);
     TTF_CloseFont(ttlStorage.ptrFont_200);
 

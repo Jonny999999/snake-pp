@@ -13,3 +13,7 @@ int CreateSDLWindow();
 void DestroySDLWindow();
 
 void renderStartMenu();
+
+void renderSettings();
+
+void renderInfoScreen();
