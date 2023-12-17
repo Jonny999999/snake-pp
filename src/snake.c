@@ -36,8 +36,8 @@ void snakeGrow()
     game.snake.length++;
     // tail part is attached left of last tail part
     // maybe problem while rendering --> MUST BE SOLVED THEN
-    game.snake.tail[game.snake.length][0] = game.snake.tail[game.snake.length - 1][0] - 1;
-    game.snake.tail[game.snake.length][1] = game.snake.tail[game.snake.length - 1][1];
+    game.snake.tail[game.snake.length - 1][0] = game.snake.tail[game.snake.length - 2][0];
+    game.snake.tail[game.snake.length - 1][1] = game.snake.tail[game.snake.length - 2][1];
     return;
 }
 
