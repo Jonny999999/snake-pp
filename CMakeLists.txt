@@ -56,6 +56,7 @@ set(SOURCES
     src/map.c
     src/common.c
     src/sound.c
+    src/difficulty.c
 )
 
 

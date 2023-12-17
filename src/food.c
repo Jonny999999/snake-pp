@@ -5,6 +5,7 @@
 #include "common.h"
 #include "map.h"
 #include "game.h"
+#include "difficulty.h"
 
 
 
@@ -87,11 +88,11 @@ newValues:
 void placeFood()
 {
     //--- config ---
-    static const float minDist = 3; // new food has to be at least minDist blocks away from any object
-    float maxDist = 5; // new food has to be closer than maxDist to an object
+    float minDist; // new food has to be at least minDist blocks away from any object
+    float maxDist; // new food has to be closer than maxDist to an object
     static const int maxTries = 25; // each maxTries the limit maxDist get loosened (prevents deadlock)
-    // TODO calculate this range using configured difficulty level
-    // e.g. in hard difficulty the maxDist could be <2 so it is always placed close to a collision
+    // get food placement parameters according to difficulty (difficulty.c)
+    difficulty_getFoodPlacementParam(&minDist, &maxDist);
 
     //--- variables ---
     int foodX, foodY, triesMax = 0, triesMin;
