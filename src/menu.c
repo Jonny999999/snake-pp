@@ -15,7 +15,11 @@ ttlData_t ttlStorage =
     .fontSize_30 = 30,      // size of font
     .fontSize_200 = 200,    // size of font
     .cycleDuration = 500,   // time between show and not showing ENTER in start screen
-    .showEnter = false
+    .showEnter = false,
+    .inputStatus = 0,
+    .textInput[0] = '\0'
+
+
 };   
 
 // Default
@@ -53,7 +57,7 @@ void manageMenu()
 // shows start screen with blinking ENTER
 void showStartScreen()
 {
-    LOGI("menu: showing start-screen\n");
+    LOGD("menu: showing start-screen\n");
 
     time_t now =  GET_TIME_MS();
 
@@ -69,7 +73,7 @@ void showStartScreen()
 
 void showLeaderboard()
 {
-    LOGI("menu: showing leaderboard\n");
+    LOGD("menu: showing leaderboard\n");
 
     //--- play crash sound ---
     //play audio file, wait until playback is finished
@@ -84,7 +88,7 @@ void showLeaderboard()
 
 void showPauseScreen()
 {
-    LOGI("menu: showing leaderboard\n");
+    LOGD("menu: showing leaderboard\n");
     game.gameState = PAUSED;
     return;
 }
@@ -92,7 +96,7 @@ void showPauseScreen()
 
 void showSettings()
 {
-    LOGI("menu: showing settings\n");
+    LOGD("menu: showing settings\n");
 
     
     time_t now =  GET_TIME_MS();
@@ -110,7 +114,7 @@ void showSettings()
 
 void showInfoScreen()
 {   
-    LOGI("menu: showing info-screen\n");
+    LOGD("menu: showing info-screen\n");
 
     time_t now =  GET_TIME_MS();
 
@@ -125,11 +129,12 @@ void showInfoScreen()
 }
 
 // handle input over keyboard
-// delete text at the and of one menu section
+// delete text at the end of one menu section
 void menuHandleInput(SDL_Event event){
     //compare 'handleInput_runningState(SDL_Event event)' in input.c
     switch(activeMenu)
-    {
+    {  
+    // start
     case START:
         switch (event.key.keysym.sym)
         {
@@ -148,13 +153,13 @@ void menuHandleInput(SDL_Event event){
         }
         break;
 
-        
+    // settings
     case SETTINGS:
         switch(event.key.keysym.sym)
         {
-        case SDLK_q: // q: quit
-            game.gameState = EXIT;
-            break;
+        // case SDLK_q: // q: quit
+        //     game.gameState = EXIT;
+        //     break;
 
         case SDLK_F1:   // go to info screen
             activeMenu = INFOSCREEN;
@@ -166,19 +171,70 @@ void menuHandleInput(SDL_Event event){
             }
             break;
 
-        case SDLK_RETURN:    //start game
-            activeMenu = NONE;
-            game.gameState = RUNNING;
-            // delete text
-            for (int i = 0; i < MAX_LINES_TFF; ++i) 
+        case SDLK_RETURN:    // confirm user input or start game
+
+            switch(ttlStorage.inputStatus)
             {
-                SDL_DestroyTexture(ttlStorage.textTextures[i]);
-            }  
+            case 0:     // confirm user name
+                // user must enter at least one letter
+                if(ttlStorage.textInput[0] != '\0')
+                {
+                    ttlStorage.inputStatus++;
+                    strcpy(ttlStorage.userName, ttlStorage.textInput);                  // copy textInput to userName
+                    memset(ttlStorage.textInput, 0, sizeof(ttlStorage.textInput));      // clear textInput[]
+                }
+                break;
+
+            case 1:     // confirm difficulty level
+                // user input must be between 0 and 3
+                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
+                {
+                    ttlStorage.inputStatus++;
+                    ttlStorage.userDifficultyLevel = ttlStorage.textInput[0] - '\0';    // copy textInput to userDifficultyLevel
+                }
+                memset(ttlStorage.textInput, 0, sizeof(ttlStorage.textInput));      // clear textInput[]
+                break;  
+
+            case 2:     // confirm map
+                // user input must be between 0 and 3
+                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
+                {
+                    ttlStorage.inputStatus++;
+                    ttlStorage.userSelectedMap = ttlStorage.textInput[0] - '\0';        // copy textInput to userSelectedMap
+                } 
+                memset(ttlStorage.textInput, 0, sizeof(ttlStorage.textInput));      // clear textInput[]
+                break;
+
+            case 3:     // start game
+                activeMenu = NONE;
+                game.gameState = RUNNING;
+                // delete text
+                for (int i = 0; i < MAX_LINES_TFF; ++i) 
+                {
+                    SDL_DestroyTexture(ttlStorage.textTextures[i]);
+                }  
+                break;
+            }
+            break;
+ 
+
+        default:   // for user inputs
+            // keyboard input
+            if (event.type == SDL_TEXTINPUT)
+            {
+                strcat(ttlStorage.textInput, event.text.text);
+            }
+            // delete single inputs via backspace
+            else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_BACKSPACE && strlen(ttlStorage.textInput) > 0)
+            {
+                ttlStorage.textInput[strlen(ttlStorage.textInput) - 1] = '\0';
+            }
             break;
         } 
         
         break;
     
+    // info screen
     case INFOSCREEN:
         switch(event.key.keysym.sym)
         {
@@ -198,7 +254,6 @@ void menuHandleInput(SDL_Event event){
         break;
     }
     
-
     return;
 }
 

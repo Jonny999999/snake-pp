@@ -8,8 +8,10 @@
 #define MAX_COLOURS 10
 #define MAX_LINES_TFF 20                //max lines (of ttf) for the whole project
 #define MAX_LINES_STARTSCREEN 6   
-#define MAX_LINES_SETTINGS 7
-#define MAX_LINE_INFOSCREEN 17
+#define MAX_LINES_SETTINGS 14
+#define MAX_LINES_INFOSCREEN 17
+
+#define TEXT_INPUT_SIZE 30
 #define TIME_BETWEEN_UPDATE_MENU 1000   // [ms] 
 
 // Enum that defines the active menu
@@ -40,8 +42,13 @@ typedef struct tllData_t
     int lineHeight;            // to print text in middle
     int totalHeight;           // to print text in middle
     int textPrintPosition;     // where first line is printed
-    const time_t cycleDuration;
-    bool showEnter;
+    const time_t cycleDuration;         // time between blinking ENTER
+    bool showEnter;                     // ENTER should be printed only every second cycle 
+    int inputStatus;                    // 1 if player name was entered;  2 if difficulty level was entered,  3 map was entered  
+    char textInput[TEXT_INPUT_SIZE];    // auxiliary variable for user input
+    char userName[TEXT_INPUT_SIZE]; // user name
+    int userDifficultyLevel;       // difficulty level which was entered by user
+    int userSelectedMap;                   // map which was entered by user
 } ttlData_t;    
 
 extern ttlData_t ttlStorage;

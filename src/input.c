@@ -81,6 +81,7 @@ void handleInput_runningState(SDL_Event event)
 void processInputEvent()
 {
     SDL_Event event;
+
     // loop through all queued input events that occoured since last run
     while (SDL_PollEvent(&event))
     {
@@ -109,6 +110,12 @@ void processInputEvent()
                 menuHandleInput(event);
                 break;
             }
+        }
+        //--- key text input ---
+        // not possible to make this check in the else if query before
+        else if(event.type == SDL_TEXTINPUT && game.gameState == MENU)
+        {
+            menuHandleInput(event);
         }
     }
 

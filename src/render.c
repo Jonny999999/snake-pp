@@ -213,65 +213,168 @@ void renderStartMenu()
 //-------------------SETTINGS-----------------------------------
 //--------------------------------------------------------------
 void renderSettings()
-{
+{   
+    int textWidth, textHeight;    // auxiliary variables for printing
+
+    // text in menu settings
+    static char* textLinesInMenu[MAX_LINES_SETTINGS] = {
+        "Fuer Infos zum Gameplay, sowie einigen Shortcuts druecken Sie bitte F1",
+        " ",
+        " ",
+        "Bitte geben Sie ihren Nickname ein: ",
+        " ",
+        " ",
+        "Bitte geben Sie ein Schwierigkeitslevel ein:",
+        "1 fuer Einfach  -  2 fuer Fortgeschritten  -  3 fuer Profi",
+        " ",
+        " ",
+        "Bitte waehlen Sie eine Map:",
+        "1 fuer Klein  -  2 fuer Mittel  -  3 fuer Gross",
+        " ",
+         "-- ENTER --"
+    };
+
+
     //=========== only first loop ================
     if(ttlStorage.lastTimeStep == 0)
-    {
+    {  
+      printf("In first loop\n");
         ttlStorage.ptrFont_20 = TTF_OpenFont("../fonts/Prototype.ttf", ttlStorage.fontSize_20);
-
-        // text in start screen
-        const char* textLines[] = {
-            "Fuer Infos zum Gameplay, sowie einigen Shortcuts druecken Sie bitte F1",
-            " ",
-            //"Bitte geben Sie ihren Spielnamen ein: ",
-            "test",
-            "test",
-            "test",
-            "test",
-            "-- ENTER --"
-        };
-
-        // render setting screen
-        for (int i = 0; i < MAX_LINES_SETTINGS; ++i) 
-        {     
-            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLines[i], ttlStorage.textColour[5]);        
-            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
-            SDL_FreeSurface(ttlStorage.textSurface);
-        }
+        SDL_StartTextInput();     // start text input
     }
 
+    
 
-    //=========== is always performerd ================
-    SDL_RenderClear(game.renderer);
-
-    int textWidth, textHeight;
-
-    // print settings    
-    ttlStorage.textPrintPosition = 0;    // first print position
-    for (int i = 0; i < (MAX_LINES_SETTINGS - 1); ++i) {
+    //=========dependent of which text is currently entered(userName, difficultyLevel, userSelectedMap) =========
+    switch(ttlStorage.inputStatus)
+    {
+    //=== no user inputs ===
+    case 0:
+        //--- rendering ---
+        for (int i = 0; i < 4; ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLinesInMenu[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+            
+        }
         
-        SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, ttlStorage.textInput, ttlStorage.textColour[5]);        
+        ttlStorage.textTextures[4] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+        SDL_RenderClear(game.renderer);
 
-        SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
-        SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
-        ttlStorage.textPrintPosition += textHeight;             // increase print position
-    }      
+        //--- printing ---
+        ttlStorage.textPrintPosition = 0;    // first print position
+        for (int i = 0; i < 5; ++i) 
+        {
+            SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+            SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+            SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+            ttlStorage.textPrintPosition += textHeight;             // increase print position
+        }   
+        break;
+
+
+    // === one user input ===
+    case 1:
+        textLinesInMenu[4] = ttlStorage.userName;  
+        //--- rendering ---
+        for (int i = 0; i < 8; ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLinesInMenu[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+            
+        }
+        
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, ttlStorage.textInput, ttlStorage.textColour[5]);        
+        ttlStorage.textTextures[8] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+        SDL_RenderClear(game.renderer);
+
+        //---printing ---
+        ttlStorage.textPrintPosition = 0;    // first print position
+        for (int i = 0; i < 9; ++i) 
+        {
+            SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+            SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+            SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+            ttlStorage.textPrintPosition += textHeight;             // increase print position
+        }   
+        break;
+
+    //=== two user inputs ===
+    case 2:
+        textLinesInMenu[8] = &(ttlStorage.userDifficultyLevel);  
+        //--- rendering ---
+        for (int i = 0; i < 12; ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLinesInMenu[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+            
+        }
+        
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, ttlStorage.textInput, ttlStorage.textColour[5]);        
+        ttlStorage.textTextures[12] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+        SDL_RenderClear(game.renderer);
+
+        //---printing ---
+        ttlStorage.textPrintPosition = 0;    // first print position
+        for (int i = 0; i < 13; ++i) 
+        {
+            SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+            SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+            SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+            ttlStorage.textPrintPosition += textHeight;             // increase print position
+        }   
+        break;
+
+    //=== user inputs completely
+    case 3:
+        textLinesInMenu[12] = &(ttlStorage.userSelectedMap);  
+        //--- rendering ---
+        for (int i = 0; i < (MAX_LINES_SETTINGS - 1); ++i) 
+        {     
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLinesInMenu[i], ttlStorage.textColour[5]);        
+            ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+            SDL_FreeSurface(ttlStorage.textSurface);
+            
+        }
+        
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLinesInMenu[MAX_LINES_SETTINGS - 1], ttlStorage.textColour[5]);        
+        ttlStorage.textTextures[MAX_LINES_SETTINGS - 1] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+        SDL_FreeSurface(ttlStorage.textSurface);
+        SDL_RenderClear(game.renderer);
+
+        //---printing ---
+        ttlStorage.textPrintPosition = 0;    // first print position
+        for (int i = 0; i < (MAX_LINES_SETTINGS - 1); ++i) 
+        {
+            SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
+            SDL_Rect dstRect = { 1, ttlStorage.textPrintPosition, textWidth, textHeight };
+            SDL_RenderCopy(game.renderer, ttlStorage.textTextures[i], NULL, &dstRect);
+            ttlStorage.textPrintPosition += textHeight;             // increase print position
+        }   
 
     //print ENTER every second cycle
-    if(ttlStorage.showEnter)
-    {
-      ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
-      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, NULL, &textWidth, &textHeight);
-      SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
-      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, &dstRect1);
-    }  
-    
-    // update screen 
+        if(ttlStorage.showEnter)
+        {
+          ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
+          SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, NULL, &textWidth, &textHeight);
+          SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
+          SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_SETTINGS-1], NULL, &dstRect1);
+        }  
+        break;
+    }
+
+    // update screen
     SDL_RenderPresent(game.renderer);
     ttlStorage.lastTimeStep = GET_TIME_MS();
 
     return;
-
 }
 
 //--------------------------------------------------------------
@@ -284,27 +387,28 @@ void renderInfoScreen()
     {
         // text in start screen
         const char* textLines[] = {
-            "        Steuerung:         W  (nach oben)",
+            "          STEUERUNG:     W (nach oben)",
             "                                  A  (nach links)",
             "                                  S  (nach unten)",
             "                                  D  (nach rechts) ",
-            "                 oder:         Pfeiltasten ",
+            "                    oder:      Pfeiltasten ",
             " ",
             " ",
-            "              Pause:         p",
-            "                oder:         Leertaste",
+            "                  PAUSE:     p",
+            "                     oder:     Leertaste",
             " ", 
             " ",            
-            "Spiel verlassen:         q ",
+            "SPIEL VERLASSEN:     q ",
             " ",
             " ",
             " ",
             "By Jonas Schoenberger, Johannes Graf und Julia Steinberger",
             "-- ENTER --"
         };
-
+        
+        
         // render setting screen
-        for (int i = 0; i < MAX_LINE_INFOSCREEN; ++i) 
+        for (int i = 0; i < MAX_LINES_INFOSCREEN; ++i) 
         {     
             ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_20, textLines[i], ttlStorage.textColour[5]);        
             ttlStorage.textTextures[i] = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
@@ -320,7 +424,7 @@ void renderInfoScreen()
 
     // print settings    
     ttlStorage.textPrintPosition = 0;    // first print position
-    for (int i = 0; i < (MAX_LINE_INFOSCREEN - 1); ++i) {
+    for (int i = 0; i < (MAX_LINES_INFOSCREEN - 1); ++i) {
         
         SDL_QueryTexture(ttlStorage.textTextures[i], NULL, NULL, &textWidth, &textHeight);
 
@@ -333,9 +437,9 @@ void renderInfoScreen()
     if(ttlStorage.showEnter)
     {
       ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
-      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINE_INFOSCREEN-1], NULL, NULL, &textWidth, &textHeight);
+      SDL_QueryTexture(ttlStorage.textTextures[MAX_LINES_INFOSCREEN-1], NULL, NULL, &textWidth, &textHeight);
       SDL_Rect dstRect1 = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };
-      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINE_INFOSCREEN-1], NULL, &dstRect1);
+      SDL_RenderCopy(game.renderer, ttlStorage.textTextures[MAX_LINES_INFOSCREEN-1], NULL, &dstRect1);
     }
 
 
