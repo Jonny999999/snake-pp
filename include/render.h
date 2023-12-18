@@ -18,3 +18,5 @@ void renderStartMenu();
 void renderSettings();
 
 void renderInfoScreen();
+
+void renderLeaderboard();

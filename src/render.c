@@ -6,6 +6,7 @@
 #include "config.h"
 #include "menu.h"
 #include "common.h"
+#include "files.h"
 #include <stdio.h>
 
 
@@ -452,8 +453,122 @@ void renderInfoScreen()
 
 void renderLeaderboard()
 {
+#define NUM_COLUMNS 4
 
+    char* menuDescription[] ={"LEADERBOARD"};
+    char* columnDescriptions[NUM_COLUMNS] = 
+    {   
+        "Score",
+        "Spieler",
+        "Schwierigkeitslevel",
+        "Map"
+    };
+
+        SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
+        SDL_RenderClear(game.renderer);
+
+        int rowHeight = config.windowSize / (MAX_PRINTED_SCORES * 10); // Höhe einer Zeile
+        int columnWidth = config.windowSize / NUM_COLUMNS; // Breite einer Spalte
+        int textWidth, textHeight;
+        
+
+        // rendering 'LEADERBOARD'
+        
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, menuDescription[0], ttlStorage.textColour[5]);
+        ttlStorage.textTexture = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+
+        SDL_QueryTexture(ttlStorage.textTexture, NULL, NULL, &textWidth, &textHeight);
+
+        SDL_Rect dstRect = {1 , 0, textWidth, textHeight };
+        SDL_RenderCopy(game.renderer, ttlStorage.textTexture, NULL, &dstRect);
+
+        SDL_FreeSurface(ttlStorage.textSurface);
+        SDL_DestroyTexture(ttlStorage.textTexture);
+
+
+        // rendering columns description
+        for (int i = 0; i < NUM_COLUMNS; ++i) {
+            ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, columnDescriptions[i], ttlStorage.textColour[5]);
+            ttlStorage.textTexture = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+
+            SDL_Rect textRect;
+            textRect.x = i * columnWidth + (columnWidth - ttlStorage.textSurface->w) / 2 - 30; // Zentrieren
+            textRect.y = 50; // Y-Koordinate für die Spaltenbeschreibung
+            textRect.w = ttlStorage.textSurface->w;
+            textRect.h = ttlStorage.textSurface->h;
+
+            SDL_RenderCopy(game.renderer, ttlStorage.textTexture, NULL, &textRect);
+
+            SDL_FreeSurface(ttlStorage.textSurface);
+            SDL_DestroyTexture(ttlStorage.textTexture);
+        }
+
+        // rendering score data
+        for (int i = 0; i < MAX_PRINTED_SCORES; ++i) {
+                char playerName[50];    // temporary buffer for text
+                char map[50];           // temporary buffer for text
+                strcpy(playerName, topScores[i].playerName);
+                strcpy(map, topScores[i].map);
+
+                // player name
+                SDL_Surface* playerNameSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, playerName, ttlStorage.textColour[5]);
+                SDL_Texture* playerNameTexture = SDL_CreateTextureFromSurface(game.renderer, playerNameSurface);
+
+                // map name
+                SDL_Surface* mapSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, map, ttlStorage.textColour[5]);
+                SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(game.renderer, mapSurface);
+
+
+                // score
+                SDL_Surface *scoreSurface = NULL; 
+                char numberScore[30];          // buffer for number 'score'
+                snprintf(numberScore, sizeof(numberScore), "%d", topScores[i].score);
+                scoreSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, numberScore, ttlStorage.textColour[5]);
+                SDL_Texture *numberTexture1 = SDL_CreateTextureFromSurface(game.renderer, scoreSurface);
+
+                // difficulty
+                SDL_Surface *difficultySurface = NULL;
+                char numberDifficulty[30];     // buffer for number 'difficulty'
+                snprintf(numberDifficulty, sizeof(numberDifficulty), "%d", topScores->difficulty);
+                difficultySurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, numberDifficulty, ttlStorage.textColour[5]);
+                SDL_Texture *numberTexture2 = SDL_CreateTextureFromSurface(game.renderer, difficultySurface);
+
+                int numberS = 70;      //x distance
+                int textPlayer = 220;   //x distance
+                int numberD = 470;      //x distance
+                int textMap = 620;      //x distance
+                int y = 90 + i*30;      //y distance
+
+                SDL_Rect scoreRect = {numberS, y, scoreSurface->w, scoreSurface->h};
+                SDL_Rect playerNameRect = {textPlayer, y, playerNameSurface->w, playerNameSurface->h };
+                SDL_Rect difficultyRect = {numberD, y, difficultySurface->w, difficultySurface->h};
+                SDL_Rect mapNameRect = {textMap, y, mapSurface->w, mapSurface->h };
+
+                SDL_RenderCopy(game.renderer, numberTexture1, NULL, &scoreRect);
+                SDL_RenderCopy(game.renderer, playerNameTexture, NULL, &playerNameRect);
+                SDL_RenderCopy(game.renderer, numberTexture2, NULL, &difficultyRect);
+                SDL_RenderCopy(game.renderer, mapTexture, NULL, &mapNameRect);
+
+                SDL_FreeSurface(playerNameSurface);
+                SDL_FreeSurface(mapSurface);
+                SDL_FreeSurface(scoreSurface);
+                SDL_FreeSurface(difficultySurface);
+
+                SDL_DestroyTexture(playerNameTexture);
+                SDL_DestroyTexture(mapTexture);
+                SDL_DestroyTexture(numberTexture1);
+                SDL_DestroyTexture(numberTexture2);
+
+
+      
+        
+    }
+    SDL_RenderPresent(game.renderer);
+    
 }
+
+
+
 
 int CreateSDLWindow(){
     // Erstelle ein SDL-Fenster

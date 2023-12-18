@@ -77,16 +77,17 @@ void showLeaderboard()
 {
     LOGD("menu: showing leaderboard\n");
 
-    
+
     //--- play crash sound ---
     //play audio file, wait until playback is finished
     //note: when displaying actual leaderboard, the second parameter should be 'false' to not block the program
-    playSound("../sounds/crash_rock-cinematic.wav", true); 
-    DELAY(100);
 
-    //--- quit game ---
-    game.gameState = EXIT;
+    
+    renderLeaderboard();
+
     return;
+    
+    
 }
 
 void showPauseScreen()
@@ -163,6 +164,9 @@ void menuHandleInput(SDL_Event event){
         // case SDLK_q: // q: quit
         //     game.gameState = EXIT;
         //     break;
+        case SDLK_F2:
+            activeMenu = LEADERBOARD;
+            break;
 
         case SDLK_F1:   // go to info screen
             activeMenu = INFOSCREEN;

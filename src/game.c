@@ -116,6 +116,10 @@ void runGameCycle()
         readTopScores("../build/player_scores.bin");
         game.gameState = MENU;
         activeMenu = LEADERBOARD;
+
+        // cut out of showLeaderboard()
+        playSound("../sounds/crash_rock-cinematic.wav", true); 
+        DELAY(100);
         return;
     }
 

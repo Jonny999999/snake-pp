@@ -20,7 +20,9 @@ playerScore_t topScores[];
     playerScore.score = game.snake.length - config.snakeDefaultLength;
     playerScore.difficulty = config.difficulty;
     strcpy(playerScore.playerName, ttlStorage.userName);
-    strcpy(playerScore.map, "testmap");
+    //strcpy(playerScore.map, "testmap");
+    
+    strcpy(playerScore.map, storedMaps[ttlStorage.userSelectedMap - 1]->name);
     
 
     FILE *file;
