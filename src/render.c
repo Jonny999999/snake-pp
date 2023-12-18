@@ -225,11 +225,11 @@ void renderSettings()
         " ",
         " ",
         "Bitte geben Sie ein Schwierigkeitslevel ein:",
-        "1 fuer Einfach  -  2 fuer Fortgeschritten  -  3 fuer Profi",
+        "1 fuer Beginner  -  2 fuer Fortgeschrittener  -  3 fuer Profi",
         " ",
         " ",
         "Bitte waehlen Sie eine Map:",
-        "1 fuer Klein  -  2 fuer Mittel  -  3 fuer Gross",
+        "1 fuer Standard  -  2 fuer Leer  -  3 fuer Intermediate",
         " ",
          "-- ENTER --"
     };
@@ -306,7 +306,7 @@ void renderSettings()
 
     //=== two user inputs ===
     case 2:
-        textLinesInMenu[8] = &(ttlStorage.userDifficultyLevel);  
+        textLinesInMenu[8] = ttlStorage.numbers[0];  
         //--- rendering ---
         for (int i = 0; i < 12; ++i) 
         {     
@@ -334,7 +334,7 @@ void renderSettings()
 
     //=== user inputs completely
     case 3:
-        textLinesInMenu[12] = &(ttlStorage.userSelectedMap);  
+        textLinesInMenu[12] = ttlStorage.numbers[1];  
         //--- rendering ---
         for (int i = 0; i < (MAX_LINES_SETTINGS - 1); ++i) 
         {     
@@ -450,7 +450,10 @@ void renderInfoScreen()
     return;
 }
 
+void renderLeaderboard()
+{
 
+}
 
 int CreateSDLWindow(){
     // Erstelle ein SDL-Fenster

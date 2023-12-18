@@ -31,7 +31,7 @@ extern "C"
 
 int main(int argc, char *argv[])
 { 
-  gameInit();
+  // gameInit();     is removed in menu.c
 
   // Initialisiere SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {

@@ -186,21 +186,23 @@ void menuHandleInput(SDL_Event event){
                 break;
 
             case 1:     // confirm difficulty level
-                // user input must be between 0 and 3
+                // user input must be between 1 and 3
                 if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
-                {
+                {   
                     ttlStorage.inputStatus++;
-                    ttlStorage.userDifficultyLevel = ttlStorage.textInput[0] - '\0';    // copy textInput to userDifficultyLevel
+                    strcpy(ttlStorage.numbers[0], ttlStorage.textInput);               // copy textInput to userDifficultyLevel     
+                    ttlStorage.userDifficultyLevel = ttlStorage.textInput[0] - '0';    // copy textInput to userDifficultyLevel
                 }
                 memset(ttlStorage.textInput, 0, sizeof(ttlStorage.textInput));      // clear textInput[]
                 break;  
 
             case 2:     // confirm map
-                // user input must be between 0 and 3
+                // user input must be between 1 and 3
                 if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
-                {
+                {   
                     ttlStorage.inputStatus++;
-                    ttlStorage.userSelectedMap = ttlStorage.textInput[0] - '\0';        // copy textInput to userSelectedMap
+                    strcpy(ttlStorage.numbers[1], ttlStorage.textInput);               // copy textInput to userSelectedMap
+                    ttlStorage.userSelectedMap = ttlStorage.textInput[0] - '0';        // copy textInput to userSelectedMap
                 } 
                 memset(ttlStorage.textInput, 0, sizeof(ttlStorage.textInput));      // clear textInput[]
                 break;
@@ -213,6 +215,12 @@ void menuHandleInput(SDL_Event event){
                 {
                     SDL_DestroyTexture(ttlStorage.textTextures[i]);
                 }  
+
+                // initialize game
+                config.difficulty = ttlStorage.userDifficultyLevel;
+                config.cycleDurationMs = config.cycleDurationMs / sqrt(config.difficulty);
+                gameInit();
+          
                 break;
             }
             break;

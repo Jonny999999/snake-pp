@@ -43,7 +43,9 @@ void gameInit()
     //load default map if no map loaded yet
     if (!game.mapIsLoaded){
         //loadMapByName("default");
-        loadMapByName(config.defaultMapName);
+
+        //loadMapByName(config.defaultMapName);
+        loadMap(*storedMaps[ttlStorage.userSelectedMap - 1]);
     }
     
     //----- snake -----

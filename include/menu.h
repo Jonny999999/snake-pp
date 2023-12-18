@@ -46,9 +46,10 @@ typedef struct tllData_t
     bool showEnter;                     // ENTER should be printed only every second cycle 
     int inputStatus;                    // 1 if player name was entered;  2 if difficulty level was entered,  3 map was entered  
     char textInput[TEXT_INPUT_SIZE];    // auxiliary variable for user input
-    char userName[TEXT_INPUT_SIZE]; // user name
-    int userDifficultyLevel;       // difficulty level which was entered by user
-    int userSelectedMap;                   // map which was entered by user
+    char numbers[2][TEXT_INPUT_SIZE];    // auxiliary variable to store entered textInput-number into local pointer 'textLinesInMenu' in render.c
+    char userName[TEXT_INPUT_SIZE];     // user name
+    int userDifficultyLevel;            // difficulty level which was entered by user
+    int userSelectedMap;                // map which was entered by user
 } ttlData_t;    
 
 extern ttlData_t ttlStorage;
