@@ -61,7 +61,10 @@ int main(int argc, char *argv[])
     {   
         manageMenu();
     } 
-
+    if(game.gameState == PAUSE)
+    {
+      printf("PAuse\n");
+    }
     if (game.gameState == RUNNING) {
         now = GET_TIME_MS(); // Timer startet
         diff = now-game.timestampLastCycle;

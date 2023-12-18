@@ -27,8 +27,13 @@ void handleInput_runningState(SDL_Event event)
 
     case SDLK_p: // p: pause
     case SDLK_ESCAPE:
-        game.gameState = PAUSED;
-        showPauseScreen();
+    case SDLK_SPACE:
+        if(game.gameState == RUNNING)
+        {
+            game.gameState = PAUSED;
+            showPauseScreen();
+        }
+
         break;
 
         //--- control snake direction ---
@@ -105,6 +110,7 @@ void processInputEvent()
                 handleInput_runningState(event);
                 break;
             case PAUSED:
+                game.gameState = RUNNING;
             case MENU:
                 // pass key event to menu handle function which updates menu
                 menuHandleInput(event);

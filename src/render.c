@@ -451,6 +451,10 @@ void renderInfoScreen()
     return;
 }
 
+
+//--------------------------------------------------------------
+//-------------------RENDER LEADERBOARD-------------------------
+//--------------------------------------------------------------
 void renderLeaderboard()
 {
 #define NUM_COLUMNS 4
@@ -558,10 +562,6 @@ void renderLeaderboard()
                 SDL_DestroyTexture(mapTexture);
                 SDL_DestroyTexture(numberTexture1);
                 SDL_DestroyTexture(numberTexture2);
-
-
-      
-        
     }
     SDL_RenderPresent(game.renderer);
     

@@ -164,9 +164,6 @@ void menuHandleInput(SDL_Event event){
         // case SDLK_q: // q: quit
         //     game.gameState = EXIT;
         //     break;
-        case SDLK_F2:
-            activeMenu = LEADERBOARD;
-            break;
 
         case SDLK_F1:   // go to info screen
             activeMenu = INFOSCREEN;
@@ -265,6 +262,15 @@ void menuHandleInput(SDL_Event event){
             {
                 SDL_DestroyTexture(ttlStorage.textTextures[i]);
             }  
+        } 
+        break;
+
+    case LEADERBOARD:
+        switch(event.key.keysym.sym)
+        {
+        case SDLK_q:       // q: quit
+        case SDLK_RETURN:   
+            game.gameState = EXIT;
         } 
         break;
     }
