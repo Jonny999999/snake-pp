@@ -77,6 +77,7 @@ void showLeaderboard()
 {
     LOGD("menu: showing leaderboard\n");
 
+    
     //--- play crash sound ---
     //play audio file, wait until playback is finished
     //note: when displaying actual leaderboard, the second parameter should be 'false' to not block the program

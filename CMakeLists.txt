@@ -53,6 +53,7 @@ set(SOURCES
     src/common.c
     src/sound.c
     src/difficulty.c
+    src/files.c
 )
 
 

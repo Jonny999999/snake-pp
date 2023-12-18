@@ -33,18 +33,13 @@ typedef struct gameData_t
 } gameData_t;
 
 
-// struct that store player score at the end of the game
-typedef struct playerScore_t
-{
-    int score;
-    char playerName[30];
-    int difficulty;
-    char map[30];
-} playerScore_t;
+
 
 
 // global struct for storing all game data (defined in game.c)
 extern gameData_t game;
+
+
 
 // run once at game start and does the following:
 // - init snake
@@ -63,5 +58,3 @@ void handlePortals(); //(ran in gameCycle)
 // - triggers frame update (render.c)
 void runGameCycle();
 
-// function which saves score in a .csv file
-  // void savePlayerScore()

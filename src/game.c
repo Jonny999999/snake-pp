@@ -5,6 +5,7 @@
 #include "food.h"
 #include "render.h"
 #include "sound.h"
+#include "files.h"
 
 
 // global struct for storing all game data
@@ -111,8 +112,10 @@ void runGameCycle()
         // TODO consider game.lifesRemaining and reset if still good?
         LOGI("game: collided with wall or self! => show leaderboard\n");
         //game.gameState = MENU; //TODO add config.collisionEnabled option?
-        //savePlayerScore(/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
-        showLeaderboard();
+        savePlayerScore("../build/player_scores.bin"/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
+        readTopScores("../build/player_scores.bin");
+        game.gameState = MENU;
+        activeMenu = LEADERBOARD;
         return;
     }
 
@@ -136,37 +139,3 @@ void runGameCycle()
 #endif
     return;
 }
-
-
-//==========================
-//==== savePlayerScores ====
-//==========================
-// void savePlayerScore(/*int score, int difficulty, const char *playerName,  const char *map*/) 
-// {   
-//     // playerScore_t playerScore;
-
-//     // // copy data into struct
-//     // playerScore.score = game.snake.length - config.snakeDefaultLength;
-//     // playerScore.difficulty = config.difficulty;
-//     // strcpy(playerScore.playerName, ttlStorage.userName);
-//     // strcpy(playerScore.map, "testmap");
-    
-
-//     // FILE *file;
-//     // // open file
-//     // file = fopen("../player_scores.bin", "ab");
-
-//     // // write data in file
-//     // if (file != NULL) 
-//     // {
-//     //     fwrite(&playerScore, sizeof(playerScore_t), 1, file);
-//     //     fclose(file);
-
-//     //     LOGI("Spielergebnis wurde erfolgreich in die Binärdatei gespeichert.\n");
-//     // } 
-//     // else 
-//     // {
-//     //     LOGI("Fehler beim Öffnen der Datei!\n");
-//     // }
-// }
-
