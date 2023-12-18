@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "common.h"
 #include <stdio.h>
+#include <math.h>
 //#include <Windows.h>
 
 
@@ -56,6 +57,7 @@ void manageMenu()
 
 // shows start screen with blinking ENTER
 void showStartScreen()
+
 {
     LOGD("menu: showing start-screen\n");
 

@@ -56,11 +56,12 @@ extern ttlData_t ttlStorage;
 
 extern menus_t activeMenu;
 
+
+
+
 // edit various menus
 // is called up in main.cpp
 void manageMenu();
-
-
 
 void showStartScreen();
 //zum Starten Enter drücken
