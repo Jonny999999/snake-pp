@@ -108,18 +108,17 @@ void runGameCycle()
     //--- handle collision ---
     //collision with map object or snake tail
     if (checkCollides(game.map, game.snake.headX, game.snake.headY) || !snakeIsAlive()){
-        // show leaderboard when collided
         // TODO consider game.lifesRemaining and reset if still good?
+        //--- play crash sound ---
         LOGI("game: collided with wall or self! => show leaderboard\n");
+        playSound("../sounds/crash_rock-cinematic.wav", false); 
+        DELAY(200);
+        //--- leaderboard ---
         //game.gameState = MENU; //TODO add config.collisionEnabled option?
         savePlayerScore("../build/player_scores.bin"/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
         readTopScores("../build/player_scores.bin");
         game.gameState = MENU;
         activeMenu = LEADERBOARD;
-
-        // cut out of showLeaderboard()
-        playSound("../sounds/crash_rock-cinematic.wav", true); 
-        DELAY(100);
         return;
     }
 
@@ -134,7 +133,7 @@ void runGameCycle()
         // NOTE: order of place and grow is relevant, otherwise function in food.c will access invalid memory
         placeFood(); 
         snakeGrow();
-}
+    }
 
     //--- update frame ---
     renderGame();

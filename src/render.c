@@ -533,7 +533,7 @@ void renderLeaderboard()
                 // difficulty
                 SDL_Surface *difficultySurface = NULL;
                 char numberDifficulty[30];     // buffer for number 'difficulty'
-                snprintf(numberDifficulty, sizeof(numberDifficulty), "%d", topScores->difficulty);
+                snprintf(numberDifficulty, sizeof(numberDifficulty), "%d", topScores[i].difficulty);
                 difficultySurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, numberDifficulty, ttlStorage.textColour[5]);
                 SDL_Texture *numberTexture2 = SDL_CreateTextureFromSurface(game.renderer, difficultySurface);
 
