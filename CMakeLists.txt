@@ -28,7 +28,6 @@ endif()
 
 # --- Locate SDL2 ---
 # Uses SDL2_DIR on Windows, on Linux it's found automatically
-# Locate SDL2
 find_package(SDL2 REQUIRED)
 
 # --- Locate SDL2_ttf ---
@@ -57,6 +56,7 @@ set(SOURCES
 )
 
 
+#--- executable ---
 add_executable(Snake ${SOURCES})
 
 
@@ -66,6 +66,10 @@ if(WIN32)
 else()
     target_link_libraries(Snake SDL2::SDL2 SDL2_ttf::SDL2_ttf)
 endif()
+
+
+# --- Copy assets to output folder ---
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
 
 # --- Copy SDL2 DLLs to the output folder on Windows ---
