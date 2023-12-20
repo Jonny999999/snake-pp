@@ -135,6 +135,9 @@ void showInfoScreen()
 // delete text at the end of one menu section
 void menuHandleInput(SDL_Event event){
     //compare 'handleInput_runningState(SDL_Event event)' in input.c
+
+    int numberOfContents = 0;   // count number of entered numbers by the user 
+
     switch(activeMenu)
     {  
     // start
@@ -189,8 +192,14 @@ void menuHandleInput(SDL_Event event){
                 break;
 
             case 1:     // confirm difficulty level
+                // count number of entered numbers
+                while (ttlStorage.textInput[numberOfContents] != '\0' && numberOfContents < sizeof(ttlStorage.textInput)) 
+                {
+                    numberOfContents++;
+                }
+
                 // user input must be between 1 and 3
-                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
+                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3') && numberOfContents == 1)      
                 {   
                     ttlStorage.inputStatus++;
                     strcpy(ttlStorage.numbers[0], ttlStorage.textInput);               // copy textInput to userDifficultyLevel     
@@ -200,8 +209,14 @@ void menuHandleInput(SDL_Event event){
                 break;  
 
             case 2:     // confirm map
+                // count number of entered numbers
+                while (ttlStorage.textInput[numberOfContents] != '\0' && numberOfContents < sizeof(ttlStorage.textInput)) 
+                {
+                    numberOfContents++;
+                }
+
                 // user input must be between 1 and 3
-                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3'))      
+                if((ttlStorage.textInput[0] > '0') && (ttlStorage.textInput[0]  <= '3') && numberOfContents == 1)      
                 {   
                     ttlStorage.inputStatus++;
                     strcpy(ttlStorage.numbers[1], ttlStorage.textInput);               // copy textInput to userSelectedMap
