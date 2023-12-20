@@ -241,7 +241,6 @@ void renderSettings()
     //=========== only first loop ================
     if(ttlStorage.lastTimeStep == 0)
     {  
-      printf("In first loop\n");
         ttlStorage.ptrFont_20 = TTF_OpenFont("../fonts/Prototype.ttf", ttlStorage.fontSize_20);
         SDL_StartTextInput();     // start text input
     }
