@@ -10,6 +10,8 @@
 #include <stdio.h>
 
 
+#define NUM_COLUMNS 4
+
 
 void renderGame(){
   SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
@@ -457,7 +459,6 @@ void renderInfoScreen()
 //--------------------------------------------------------------
 void renderLeaderboard()
 {
-#define NUM_COLUMNS 4
 
     char* menuDescription[] ={"LEADERBOARD"};
     char* columnDescriptions[NUM_COLUMNS] = 
@@ -508,7 +509,8 @@ void renderLeaderboard()
         }
 
         // rendering score data
-        for (int i = 0; i < MAX_PRINTED_SCORES; ++i) {
+        int maxCycles = (recordsInFile < MAX_PRINTED_SCORES) ? recordsInFile : MAX_PRINTED_SCORES;
+        for (int i = 0; i < maxCycles; ++i) {
                 char playerName[50];    // temporary buffer for text
                 char map[50];           // temporary buffer for text
                 strcpy(playerName, topScores[i].playerName);
@@ -574,13 +576,13 @@ int CreateSDLWindow(){
     // Erstelle ein SDL-Fenster
   game.window = SDL_CreateWindow("Snake", 350, 50, config.windowSize, config.windowSize, SDL_WINDOW_OPENGL);
     if (game.window == NULL) {
-        printf("Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
+        LOGI("SDL: Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
 
   game.renderer = SDL_CreateRenderer(game.window, -1, SDL_RENDERER_ACCELERATED);
     if (game.renderer == NULL) {
-        printf("Renderer konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
+        LOGI("SDL: Renderer konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
     return 0;

@@ -82,7 +82,6 @@ void showLeaderboard()
     //play audio file, wait until playback is finished
     //note: when displaying actual leaderboard, the second parameter should be 'false' to not block the program
 
-    
     renderLeaderboard();
 
     return;

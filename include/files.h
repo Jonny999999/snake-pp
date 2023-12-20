@@ -3,6 +3,7 @@
 
 #define MAX_PRINTED_SCORES  5
 
+int recordsInFile;
 
 // struct that store player score at the end of the game
 typedef struct playerScore_t

@@ -7,7 +7,7 @@
 //global struct for storing all data of the 10 best players
 playerScore_t topScores[];
 
-
+int recordsInFile;
 
 //==========================
 //==== savePlayerScores ====
@@ -52,8 +52,7 @@ void readTopScores(const char *filename)
 {
     FILE *filePtr;
     playerScore_t tempPlayerScore;
-    int recordsInFile;
-    int highestPlayerScore;
+    int highestPlayerScore = 0;
     int count = 0;              // increase up to 'MAX_PRINTED_SCORES'
 
     // determine the number of contents in the file
@@ -70,13 +69,13 @@ void readTopScores(const char *filename)
     // fail with file opening
     if (filePtr == NULL) 
     {
-        LOGI("Datei:  Fehler beim Öffnen der Datei für die besten 10 Ergebnisse!\n");
+        LOGI("Datei: Fehler beim Öffnen der Datei für die besten 10 Ergebnisse!\n");
         game.gameState = EXIT;
         return;
     }
     
 
-    LOGI("Datensaetze in Datei: %d\n", recordsInFile);
+    LOGI("Datei: Datensaetze in Datei: %d\n", recordsInFile);
 
 
     //---- search for the highest score------
@@ -85,38 +84,36 @@ void readTopScores(const char *filename)
         fread(&tempPlayerScore, sizeof(playerScore_t), 1, filePtr);
         if(tempPlayerScore.score > highestPlayerScore)
         {
-            highestPlayerScore == tempPlayerScore.score;
+            highestPlayerScore = tempPlayerScore.score;
         }
     }
     
     //--- decrease highest score -----
-    while((count < MAX_PRINTED_SCORES) && (count < MAX_PRINTED_SCORES))
+    while((count < MAX_PRINTED_SCORES) && (count < recordsInFile))
     {   
         // set file pointer to start of the file
         rewind(filePtr);    
-
         // search for the highest score and then save it in topScores
         for (int i = 0; i < recordsInFile; i++) 
         {   
+            // read record from the file
             fread(&tempPlayerScore, sizeof(playerScore_t), 1, filePtr);
 
             // current highscore found
             if(tempPlayerScore.score == highestPlayerScore)    
             {
                 topScores[count] = tempPlayerScore;
-                LOGI("score: %d  name: %s  schwierigkeit: %d  map: %s\n", topScores[count].score, topScores[count].playerName, topScores[count].difficulty, topScores[count].map); 
+                LOGI("Datei: score: %d  name: %s  schwierigkeit: %d  map: %s\n", topScores[count].score, topScores[count].playerName, topScores[count].difficulty, topScores[count].map); 
                 count++;
             }
-
-            // leave if MAX_PRINTED_SCORES is reached
-            if(count >= MAX_PRINTED_SCORES)
+            // leave if limit is reached
+            if(count >= recordsInFile || count >= MAX_PRINTED_SCORES)
             {
                 break;
             }
         }
         highestPlayerScore--;
     }
-
     fclose(filePtr);
 }
 
