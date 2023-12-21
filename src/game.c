@@ -23,10 +23,10 @@ gameData_t game = {
 
 // list of audio files randomly played when food eaten
 const char *eatSounds[] = {
-    "../sounds/eat-bite1.wav",
-    "../sounds/eat-bite2.wav",
-    "../sounds/eat-crunch1.wav",
-    "../sounds/eat-crunch2.wav"};
+    "assets/sounds/eat-bite1.wav",
+    "assets/sounds/eat-bite2.wav",
+    "assets/sounds/eat-crunch1.wav",
+    "assets/sounds/eat-crunch2.wav"};
 #define EAT_SOUNDS_COUNT 4
 
 
@@ -76,11 +76,11 @@ void handlePortals()
             snakeSetHeadPos(p.targetX, p.targetY);
             LOGI("game: entered portal i=%d at x=%d, y=%d -> set head to x=%d y=%d\n", i, p.posX, p.posY, p.targetX, p.targetY);
             //--- play sound ---
-            //playSoundAsync("../sounds/portal1_short.wav"); //too short
-            //playSoundAsync("../sounds/portal2_oscillate.wav"); //too much bass
-            //playSoundAsync("../sounds/space-gun.wav"); //too loud
-            playSoundAsync("../sounds/portal3_in-out.wav");
-            //playSoundAsync("../sounds/portal4_ramp.wav");
+            //playSoundAsync("assets/sounds/portal1_short.wav"); //too short
+            //playSoundAsync("assets/sounds/portal2_oscillate.wav"); //too much bass
+            //playSoundAsync("assets/sounds/space-gun.wav"); //too loud
+            playSoundAsync("assets/sounds/portal3_in-out.wav");
+            //playSoundAsync("assets/sounds/portal4_ramp.wav");
             return;
         }
     }
@@ -111,12 +111,12 @@ void runGameCycle()
         // TODO consider game.lifesRemaining and reset if still good?
         //--- play crash sound ---
         LOGI("game: collided with wall or self! => show leaderboard\n");
-        playSound("../sounds/crash_rock-cinematic.wav", false); 
+        playSound("assets/sounds/crash_rock-cinematic.wav", false); 
         DELAY(200);
         //--- leaderboard ---
         //game.gameState = MENU; //TODO add config.collisionEnabled option?
-        savePlayerScore("../build/player_scores.bin"/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
-        readTopScores("../build/player_scores.bin");
+        savePlayerScore(config.leaderboardFilename/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
+        readTopScores(config.leaderboardFilename);
         game.gameState = MENU;
         activeMenu = LEADERBOARD;
         return;

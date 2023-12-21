@@ -126,8 +126,8 @@ void renderStartMenu()
     //=========== only first loop ================
     if(ttlStorage.lastTimeStep == 0)
     {
-        ttlStorage.ptrFont_200 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_200);
-        ttlStorage.ptrFont_30 = TTF_OpenFont("../fonts/Quirkus.ttf", ttlStorage.fontSize_30);
+        ttlStorage.ptrFont_200 = TTF_OpenFont("assets/fonts/Quirkus.ttf", ttlStorage.fontSize_200);
+        ttlStorage.ptrFont_30 = TTF_OpenFont("assets/fonts/Quirkus.ttf", ttlStorage.fontSize_30);
 
 
         SDL_Color textColor1 = {255, 0, 255}; // rosa Text
@@ -241,7 +241,7 @@ void renderSettings()
     //=========== only first loop ================
     if(ttlStorage.lastTimeStep == 0)
     {  
-        ttlStorage.ptrFont_20 = TTF_OpenFont("../fonts/Prototype.ttf", ttlStorage.fontSize_20);
+        ttlStorage.ptrFont_20 = TTF_OpenFont("assets/fonts/Prototype.ttf", ttlStorage.fontSize_20);
         SDL_StartTextInput();     // start text input
     }
 

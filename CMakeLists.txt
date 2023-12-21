@@ -28,7 +28,6 @@ endif()
 
 # --- Locate SDL2 ---
 # Uses SDL2_DIR on Windows, on Linux it's found automatically
-# Locate SDL2
 find_package(SDL2 REQUIRED)
 
 # --- Locate SDL2_ttf ---
@@ -57,15 +56,22 @@ set(SOURCES
 )
 
 
+#--- executable ---
 add_executable(Snake ${SOURCES})
 
 
 #--- link libraries ---
 if(WIN32)
+    # Link libraries statically on Windows to prevent missing basic libraries on other systems.
+    target_link_options(Snake PRIVATE -static)
     target_link_libraries(Snake ${SDL2_LIBRARIES} ${SDL_TTF_LIBRARIES})
 else()
     target_link_libraries(Snake SDL2::SDL2 SDL2_ttf::SDL2_ttf)
 endif()
+
+
+# --- Copy assets to output folder ---
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
 
 # --- Copy SDL2 DLLs to the output folder on Windows ---
@@ -74,4 +80,43 @@ if(WIN32)
         add_custom_command(TARGET Snake POST_BUILD COMMAND
             ${CMAKE_COMMAND} -E copy_if_different ${DLL} $<TARGET_FILE_DIR:Snake>)
     endforeach()
+endif()
+
+
+
+
+############################################
+######## generate release .zip file ########
+############################################
+# Generate a distributable ZIP archive for sharing the game.
+# Note: currently only intended for windows systems
+# Usage:
+#   1. Build the project: cd build && cmake .. && make
+#   2. Generate ZIP file: cpack
+#   3. Share the ZIP file for others to run the game effortlessly.
+if(WIN32)
+# generator for zip archive TODO add other generator e.g. installer
+set(CPACK_GENERATOR "ZIP")
+
+# Specify to exclude the top-level directory from the archive.
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
+
+# Specify the components to be included in the package
+install(TARGETS Snake
+        RUNTIME DESTINATION .
+        COMPONENT Runtime
+)
+
+# copy DLL files
+install(FILES ${SDL2_DLLS} ${SDL2_TTF_DLLS}
+        DESTINATION .
+        COMPONENT Runtime
+)
+# copy assets folder
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets
+        DESTINATION .
+        COMPONENT Assets
+)
+
+include(CPack)
 endif()
