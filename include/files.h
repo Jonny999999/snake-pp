@@ -1,7 +1,7 @@
 #pragma once
 #include "config.h"
 
-#define MAX_PRINTED_SCORES  5
+#define MAX_PRINTED_SCORES  10
 
 int recordsInFile;
 
