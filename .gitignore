@@ -26,6 +26,9 @@ compile_commands.json
 *.exe
 *.out
 
+# Binary files
+*.bin
+
 # Libraries
 *.a
 *.lib
