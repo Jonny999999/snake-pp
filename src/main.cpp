@@ -10,28 +10,15 @@ extern "C"
 #include "menu.h"
 }
 
-//initialize SDL window
-//ruft showStartScreen
-//initialize game
-//main loop: processInputEvents, runGameCycle
-//uninitialize SDL
-
-
-
-//==========================
-//====== enabled test ======
-//==========================
-//uncomment one test at a time to run the corresponding code in main()
-//#define TEST__FOOD_PLACEMENT
-//#define TEST__SDL_INPUT
-#define TEST__GAME_WITH_CONSOLE_OUTPUT
-
-
-
+//1. initialize SDL window
+//2. call showStartScreen
+//3. initialize game
+//4. main loop: processInputEvents, runGameCycle
+//5. uninitialize SDL
 
 int main(int argc, char *argv[])
 { 
-  // gameInit();     is removed in menu.c
+  // gameInit();     moved to menu.c
 
   // Initialisiere SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -45,10 +32,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-
   CreateSDLWindow();
-
-
 
 
   time_t now;
@@ -61,7 +45,7 @@ int main(int argc, char *argv[])
     {   
         manageMenu();
     } 
-    if(game.gameState == PAUSE)
+    if(game.gameState == PAUSED)
     {
       LOGI("Spielmodus: Pause\n");
     }
@@ -77,31 +61,6 @@ int main(int argc, char *argv[])
     DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
     processInputEvent();
   }
-
-/*  time_t t;
-
-  long long ms = time(NULL) *1000;
-  game.timestampLastCycle = ms;
-
-  printf("timestamp: %lld",game.timestampLastCycle);
-  printf("ms: %lld",ms);
-
-  while(game.gameState != EXIT) {
-    if (game.gameState == RUNNING) {
-        ms = time(NULL) *1000; // Timer startet
-      
-        printf("ms2: %lld", ms);
-
-        if (ms - game.timestampLastCycle > config.cycleDurationMs){
-
-          game.timestampLastCycle = ms;
-          runGameCycle();
-        }
-    }
-    DELAY(5);     //verhindert maximale Durchlaufgeschwindigkeit der Schleife
-    processInputEvent();
-  }*/
-
 
 
 
