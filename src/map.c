@@ -145,7 +145,7 @@ void loadMapByName(const char *name)
         }
     }
     // map not found
-    printf("[FATAL ERROR] map: could not find '%s' in storedMaps!\n", name);
+    LOGE("[FATAL] map: could not find '%s' in storedMaps!\n", name);
     game.gameState = EXIT;
     return;
 }

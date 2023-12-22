@@ -575,13 +575,13 @@ int CreateSDLWindow(){
     // Erstelle ein SDL-Fenster
   game.window = SDL_CreateWindow("Snake", 350, 50, config.windowSize, config.windowSize, SDL_WINDOW_OPENGL);
     if (game.window == NULL) {
-        LOGI("SDL: Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
+        LOGE("SDL: Fenster konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
 
   game.renderer = SDL_CreateRenderer(game.window, -1, SDL_RENDERER_ACCELERATED);
     if (game.renderer == NULL) {
-        LOGI("SDL: Renderer konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
+        LOGE("SDL: Renderer konnte nicht erstellt werden! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
     return 0;

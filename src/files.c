@@ -35,11 +35,11 @@ int recordsInFile;
         fwrite(&playerScore, sizeof(playerScore_t), 1, file);
         fclose(file);
 
-        LOGI("Spielergebnis wurde erfolgreich in die Binaerdatei gespeichert.\n");
+        LOGI("Datei: Spielergebnis erfolgreich in %s gespeichert.\n", config.leaderboardFilename);
     } 
     else 
     {
-        LOGI("Fehler beim Öffnen der Datei!\n");
+        LOGE("file: Fehler beim Öffnen der Datei!\n");
     }
 }
 
@@ -69,7 +69,7 @@ void readTopScores(const char *filename)
     // fail with file opening
     if (filePtr == NULL) 
     {
-        LOGI("Datei: Fehler beim Öffnen der Datei für die besten 10 Ergebnisse!\n");
+        LOGE("Datei: Fehler beim Öffnen der Datei für die besten 10 Ergebnisse!\n");
         game.gameState = EXIT;
         return;
     }
@@ -103,7 +103,7 @@ void readTopScores(const char *filename)
             if(tempPlayerScore.score == highestPlayerScore)    
             {
                 topScores[count] = tempPlayerScore;
-                LOGI("Datei: score: %d  name: %s  schwierigkeit: %d  map: %s\n", topScores[count].score, topScores[count].playerName, topScores[count].difficulty, topScores[count].map); 
+                LOGI("Datei:   score: %d  name: %s  schwierigkeit: %d  map: %s\n", topScores[count].score, topScores[count].playerName, topScores[count].difficulty, topScores[count].map); 
                 count++;
             }
             // leave if limit is reached

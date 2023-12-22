@@ -57,7 +57,7 @@ newValues:
                         {
                             //decrease min distance but not below 1
                             if ((in_minDist -= 0.1) < 1) in_minDist = 1;
-                            LOGI("[WARN] food: too much tries achieving min dist -> loosen limit to %.1f\n", in_minDist);
+                            LOGI("[WARN] food: too many tries achieving min dist -> loosen limit to %.1f\n", in_minDist);
                         }
                         //reset stored distance and reroll coordinates
                         minActualDistance = MAX_MAP_SIZE;
@@ -95,7 +95,7 @@ void placeFood()
     difficulty_getFoodPlacementParam(&minDist, &maxDist);
 
     //--- variables ---
-    int foodX, foodY, triesMax = 0, triesMin;
+    int foodX, foodY, triesMax = 0, triesMin, triesTotal = 0;
     float currentMinDist;
 
     //--- generate random food position within min/max range ---
@@ -107,15 +107,17 @@ void placeFood()
         if (triesMax % maxTries == 0)
         {
             maxDist += 0.1;
-            LOGI("[WARN] food: too many tries for MAX_DIST -> loosen limits to max=%.1f\n", maxDist);
+            LOGI("[WARN] food: too many tries achieving max dist -> loosen limits to max=%.1f\n", maxDist);
         }
         // generate random coordinates respecting minimum distance to objects
         getRandomPositionWithMinDistance(&foodX, &foodY, &currentMinDist, &triesMin, minDist);
+        triesTotal += triesMin;
         //restart when max distance limit exceeded
     } while (currentMinDist > maxDist);
 
     //--- update position ---
-    LOGI("food: placed food at x=%d, y=%d (took %d = %d*%d tries)\n", foodX, foodY, triesMax * triesMin, triesMax, triesMin);
+    LOGI("food: placed food at x=%d, y=%d (took %d tries)\n", foodX, foodY, triesTotal);
+    LOGD("food: tries for constraints: Max=%d  Min(last)=%d  Total=%d)\n", triesMax, triesMin, triesTotal);
     game.foodX = foodX;
     game.foodY = foodY;
     return;

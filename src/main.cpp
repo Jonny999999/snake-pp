@@ -22,13 +22,13 @@ int main(int argc, char *argv[])
 
   // Initialisiere SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    LOGI("SDL: SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
+    LOGE("SDL: SDL konnte nicht initialisiert werden! SDL_Error: %s\n", SDL_GetError());
     return 1;
   }
 
   // Initialisiere SDL_ttl, um Text ausgeben zu können
     if (TTF_Init() == -1) {
-    LOGI("SDL: SDL_ttf konnte nicht initialisiert werden! SDL_Error: %s\n");
+    LOGE("SDL: SDL_ttf konnte nicht initialisiert werden! SDL_Error: %s\n");
     return 1;
   }
 
@@ -45,10 +45,6 @@ int main(int argc, char *argv[])
     {   
         manageMenu();
     } 
-    if(game.gameState == PAUSED)
-    {
-      LOGI("Spielmodus: Pause\n");
-    }
     if (game.gameState == RUNNING) {
         now = GET_TIME_MS(); // Timer startet
         diff = now-game.timestampLastCycle;

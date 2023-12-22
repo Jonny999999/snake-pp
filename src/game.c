@@ -54,8 +54,8 @@ void gameInit()
     snakeInit(); //TODO assign return value to game.snake?
 
     //--- place initial food ---
+    LOGI("game: placing initial food\n");
     placeFood();
-    LOGI("game: placed initial food at x=%d, y=%d\n", game.foodX, game.foodY);
 }
 
 
@@ -110,13 +110,15 @@ void runGameCycle()
     if (checkCollides(game.map, game.snake.headX, game.snake.headY) || !snakeIsAlive()){
         // TODO consider game.lifesRemaining and reset if still good?
         //--- play crash sound ---
-        LOGI("game: collided with wall or self! => show leaderboard\n");
+        LOGI("game: collided with wall or self\n");
         playSound("assets/sounds/crash_rock-cinematic.wav", false); 
         DELAY(200);
         //--- leaderboard ---
         //game.gameState = MENU; //TODO add config.collisionEnabled option?
+        LOGI("game: saving player score\n");
         savePlayerScore(config.leaderboardFilename/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
         readTopScores(config.leaderboardFilename);
+        LOGI("game: showing leaderboard\n");
         game.gameState = MENU;
         activeMenu = LEADERBOARD;
         return;
