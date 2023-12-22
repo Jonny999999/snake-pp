@@ -27,7 +27,7 @@ int initAudio()
         //--- initialize SDL audio ---
         if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
-            printf("SDL: could not init audio!\n");
+            LOGE("sound: SDL - could not init audio!\n");
             return 1;
         }
         audioIsInitialized = true;
@@ -66,7 +66,8 @@ int playSound(const char *filePath, bool wait)
     //--- load file ---
     if (SDL_LoadWAV(filePath, &wavSpec, &wavBuffer, &wavLength) == NULL)
     {
-        printf("sound: file '%s' could not be loaded E:'%s'\n", filePath, SDL_GetError());
+        LOGE("sound: file '%s' could not be loaded E:'%s'\n", filePath, SDL_GetError());
+        pthread_mutex_unlock(&mutexSoundPlaying);
         return 1;
     }
 
@@ -75,7 +76,7 @@ int playSound(const char *filePath, bool wait)
     deviceExists = true;
     SDL_QueueAudio(deviceId, wavBuffer, wavLength);
     SDL_PauseAudioDevice(deviceId, 0);
-    LOGI("sound: playing file '%s'\n", filePath);
+    LOGD("sound: playing file '%s'\n", filePath);
 
     //--- wait until playback is finished ---
     while (SDL_GetQueuedAudioSize(deviceId) > 0)
@@ -123,14 +124,14 @@ int playSoundAsync(const char *filePath) {
     //--- allocate memory for filePath ---
     char *filePathCopy = strdup(filePath);
     if (filePathCopy == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
+        LOGE("sound: Memory allocation failed\n");
         return 1;
     }
 
     //--- create new thread ---
     pthread_t thread;
     if (pthread_create(&thread, NULL, playSoundThread, filePathCopy) != 0) {
-        fprintf(stderr, "Failed to create thread\n");
+        LOGE("sound: Failed to create thread\n");
         free(filePathCopy);
         return 1;
     } else {
