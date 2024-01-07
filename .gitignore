@@ -26,10 +26,14 @@ compile_commands.json
 *.exe
 *.out
 
+# Binary files
+*.bin
+
 # Libraries
 *.a
 *.lib
 SDL2
+SDL2_ttf
 
 # Ignore any backup files
 *~

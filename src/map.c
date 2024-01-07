@@ -130,7 +130,7 @@ void updateBlockSizePx(){
 //===========================
 // search and load map by name in storedMaps[] (map.c) 
 // stops program when map not found!
-void loadMapByName(char *name)
+void loadMapByName(const char *name)
 {
     // loop through all stored maps
     for (int i = 0; i < storedMapsCount; i++)
@@ -145,7 +145,7 @@ void loadMapByName(char *name)
         }
     }
     // map not found
-    printf("[FATAL ERROR] map: could not find '%s' in storedMaps!\n", name);
+    LOGE("[FATAL] map: could not find '%s' in storedMaps!\n", name);
     game.gameState = EXIT;
     return;
 }
@@ -224,7 +224,7 @@ static const map_t map_default = {
 
 static const map_t map_empty = {
     .width = 20,
-    .height = 15,
+    .height = 20,
     .name = "empty",
     .collisions = {},
     .collisionCount = 0,

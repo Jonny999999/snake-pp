@@ -1,6 +1,7 @@
 #include "snake.h"
 #include "game.h"   //for access to global 'game' struct
 
+bool snakeSetDirectionIsAllowed = true;
 
 void snakeInit()
 {
@@ -36,14 +37,16 @@ void snakeGrow()
     game.snake.length++;
     // tail part is attached left of last tail part
     // maybe problem while rendering --> MUST BE SOLVED THEN
-    game.snake.tail[game.snake.length][0] = game.snake.tail[game.snake.length - 1][0] - 1;
-    game.snake.tail[game.snake.length][1] = game.snake.tail[game.snake.length - 1][1];
+    game.snake.tail[game.snake.length - 1][0] = game.snake.tail[game.snake.length - 2][0];
+    game.snake.tail[game.snake.length - 1][1] = game.snake.tail[game.snake.length - 2][1];
     return;
 }
 
 void snakeMove()
 {   
     int i = game.snake.length - 1;  // counter for snake moving
+    
+    snakeSetDirectionIsAllowed = true;   // direction can be changed now
 
     // update head position automatically
     snakeUpdateHeadPos();
@@ -63,6 +66,12 @@ void snakeMove()
 
 void snakeSetDir(snakeDirection_t dir)
 {   
+    // if direction mustn changed
+    if(!snakeSetDirectionIsAllowed)
+    {
+        return;
+    }
+
     // check, if snake should be move in opposite direction -> new direction stays old direction
     switch(dir)
     {
@@ -92,6 +101,7 @@ void snakeSetDir(snakeDirection_t dir)
 
     }
     game.snake.direction = dir;
+    snakeSetDirectionIsAllowed = false;     // direction cannot updated until next snakeMove
     return;
 }
 

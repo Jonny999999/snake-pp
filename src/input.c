@@ -1,3 +1,5 @@
+#include <math.h>
+#include "render.h"
 #include "input.h"
 #include "common.h"
 #include "SDL.h"
@@ -25,6 +27,8 @@ void handleInput_runningState(SDL_Event event)
 
     case SDLK_p: // p: pause
     case SDLK_ESCAPE:
+    case SDLK_SPACE:
+        LOGI("input: pausing game\n");
         game.gameState = PAUSED;
         showPauseScreen();
         break;
@@ -50,19 +54,19 @@ void handleInput_runningState(SDL_Event event)
         snakeSetDir(RIGHT);
         break;
 
-    case SDLK_m: // m: cycle through maps
-        rotateMapNext();
-        break;
+    // case SDLK_m: // m: cycle through maps
+    //     rotateMapNext();
+    //     break;
 
-    case SDLK_2: // 2: speed up game by increment
-        config.cycleDurationMs -= sqrt(config.cycleDurationMs) + 1;
-        if (config.cycleDurationMs < 20)
-            config.cycleDurationMs = 20;
-        break;
+    // case SDLK_2: // 2: speed up game by increment
+    //     config.cycleDurationMs -= sqrt(config.cycleDurationMs) + 1;
+    //     if (config.cycleDurationMs < 20)
+    //         config.cycleDurationMs = 20;
+    //     break;
 
-    case SDLK_1: // 1: slow down game by increment
-        config.cycleDurationMs += 50;
-        break;
+    // case SDLK_1: // 1: slow down game by increment
+    //     config.cycleDurationMs += 50;
+    //     break;
 
     default:
         LOGD("input: key %d is not handled in RUNNING mode\n", event.key.keysym.sym);
@@ -79,6 +83,7 @@ void handleInput_runningState(SDL_Event event)
 void processInputEvent()
 {
     SDL_Event event;
+
     // loop through all queued input events that occoured since last run
     while (SDL_PollEvent(&event))
     {
@@ -102,11 +107,19 @@ void processInputEvent()
                 handleInput_runningState(event);
                 break;
             case PAUSED:
+                LOGI("input: resume game from paused state\n");
+                game.gameState = RUNNING;
             case MENU:
                 // pass key event to menu handle function which updates menu
                 menuHandleInput(event);
                 break;
             }
+        }
+        //--- key text input ---
+        // not possible to make this check in the else if query before
+        else if(event.type == SDL_TEXTINPUT && game.gameState == MENU)
+        {
+            menuHandleInput(event);
         }
     }
 

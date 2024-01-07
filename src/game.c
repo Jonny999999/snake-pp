@@ -5,6 +5,7 @@
 #include "food.h"
 #include "render.h"
 #include "sound.h"
+#include "files.h"
 
 
 // global struct for storing all game data
@@ -16,16 +17,16 @@ gameData_t game = {
     .mapIsLoaded = false,
     .lifesRemaining = 1,
     .timestampLastCycle = 0,
-    .gameState = RUNNING,
+    .gameState = MENU,
 };
 
 
 // list of audio files randomly played when food eaten
 const char *eatSounds[] = {
-    "../sounds/eat-bite1.wav",
-    "../sounds/eat-bite2.wav",
-    "../sounds/eat-crunch1.wav",
-    "../sounds/eat-crunch2.wav"};
+    "assets/sounds/eat-bite1.wav",
+    "assets/sounds/eat-bite2.wav",
+    "assets/sounds/eat-crunch1.wav",
+    "assets/sounds/eat-crunch2.wav"};
 #define EAT_SOUNDS_COUNT 4
 
 
@@ -43,7 +44,9 @@ void gameInit()
     //load default map if no map loaded yet
     if (!game.mapIsLoaded){
         //loadMapByName("default");
-        loadMapByName(config.defaultMapName);
+
+        //loadMapByName(config.defaultMapName);
+        loadMap(*storedMaps[ttlStorage.userSelectedMap - 1]);
     }
     
     //----- snake -----
@@ -51,8 +54,8 @@ void gameInit()
     snakeInit(); //TODO assign return value to game.snake?
 
     //--- place initial food ---
+    LOGI("game: placing initial food\n");
     placeFood();
-    LOGI("game: placed initial food at x=%d, y=%d\n", game.foodX, game.foodY);
 }
 
 
@@ -73,11 +76,11 @@ void handlePortals()
             snakeSetHeadPos(p.targetX, p.targetY);
             LOGI("game: entered portal i=%d at x=%d, y=%d -> set head to x=%d y=%d\n", i, p.posX, p.posY, p.targetX, p.targetY);
             //--- play sound ---
-            //playSoundAsync("../sounds/portal1_short.wav"); //too short
-            //playSoundAsync("../sounds/portal2_oscillate.wav"); //too much bass
-            //playSoundAsync("../sounds/space-gun.wav"); //too loud
-            playSoundAsync("../sounds/portal3_in-out.wav");
-            //playSoundAsync("../sounds/portal4_ramp.wav");
+            //playSoundAsync("assets/sounds/portal1_short.wav"); //too short
+            //playSoundAsync("assets/sounds/portal2_oscillate.wav"); //too much bass
+            //playSoundAsync("assets/sounds/space-gun.wav"); //too loud
+            playSoundAsync("assets/sounds/portal3_in-out.wav");
+            //playSoundAsync("assets/sounds/portal4_ramp.wav");
             return;
         }
     }
@@ -105,11 +108,19 @@ void runGameCycle()
     //--- handle collision ---
     //collision with map object or snake tail
     if (checkCollides(game.map, game.snake.headX, game.snake.headY) || !snakeIsAlive()){
-        // show leaderboard when collided
         // TODO consider game.lifesRemaining and reset if still good?
-        LOGI("game: collided with wall or self! => show leaderboard\n");
+        //--- play crash sound ---
+        LOGI("game: collided with wall or self\n");
+        playSound("assets/sounds/crash_rock-cinematic.wav", false); 
+        DELAY(200);
+        //--- leaderboard ---
         //game.gameState = MENU; //TODO add config.collisionEnabled option?
-        showLeaderboard();
+        LOGI("game: saving player score\n");
+        savePlayerScore(config.leaderboardFilename/*(game.snake.length - config.snakeDefaultLength), ttlStorage.userName, config.difficulty, *storedMaps[ttlStorage.userSelectedMap - 1]*/);
+        readTopScores(config.leaderboardFilename);
+        LOGI("game: showing leaderboard\n");
+        game.gameState = MENU;
+        activeMenu = LEADERBOARD;
         return;
     }
 
@@ -124,7 +135,7 @@ void runGameCycle()
         // NOTE: order of place and grow is relevant, otherwise function in food.c will access invalid memory
         placeFood(); 
         snakeGrow();
-}
+    }
 
     //--- update frame ---
     renderGame();

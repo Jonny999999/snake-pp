@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string.h>
 #include "game.h"
 #include "snake.h"
+#include "menu.h"
 #include "SDL.h"
 
 void renderGame();
@@ -10,3 +12,11 @@ void renderGame();
 int CreateSDLWindow();
 
 void DestroySDLWindow();
+
+void renderStartMenu();
+
+void renderSettings();
+
+void renderInfoScreen();
+
+void renderLeaderboard();

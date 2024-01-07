@@ -39,7 +39,7 @@ void updateBlockSizePx();
 
 // search and load map by name in storedMaps[] (map.c) 
 // stops program when map not found!
-void loadMapByName(char *name);
+void loadMapByName(const char *name);
 
 
 //load map by passed definition

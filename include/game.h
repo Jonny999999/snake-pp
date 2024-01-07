@@ -1,5 +1,6 @@
 #pragma once
 #include <stdbool.h>
+#include <string.h>
 
 #include "snake.h"
 #include "config.h"
@@ -31,8 +32,13 @@ typedef struct gameData_t
   gameState_t gameState;  // state the game is in
 } gameData_t;
 
+
+
+
+
 // global struct for storing all game data (defined in game.c)
 extern gameData_t game;
+
 
 
 // run once at game start and does the following:
@@ -51,3 +57,4 @@ void handlePortals(); //(ran in gameCycle)
 // - handles collision, portals, food
 // - triggers frame update (render.c)
 void runGameCycle();
+
