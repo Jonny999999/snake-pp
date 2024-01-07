@@ -7,6 +7,14 @@ A project for the Software Engineering course as part of our studies.
 <img src="demo.jpg" width="70%">
 
 
+# Installation
+For Windows 64-Bit a pre-compiled release, that also includes the required .dll files and assets is available:
+- Download the zip file from [Releases](https://github.com/Jonny999999/snake-pp/releases/latest) (e.g. "Snake-1.0-win64.zip")
+- Extract zip file
+- Navigate to the folder and run `Snake.exe`
+On other Systems you currently have to compile from source (see next sections)
+
+
 # Compilation
 
 ## Linux
