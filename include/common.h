@@ -25,20 +25,18 @@
 #endif
 
 //conditional logging when ERROR_OUTPUT_ENABLED is defined in config.h
-//also prints in text in red color
+//also prints in text in red color (windows not supported)
 //example: LOGE("game: %d", count)
 #ifdef ERROR_OUTPUT_ENABLED
-#ifdef _WIN32
-    #include <windows.h>
-    #define RED_TEXT SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED)
-    #define RESET_TEXT SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
-#else
+  #ifdef _WIN32 //print error output in default color (currently no color support for windows)
+    #define LOGE(format, ...) printf("[E] " format, ##__VA_ARGS__)
+  #else //print error output in red color
     #define RED_TEXT "\033[1;31m"
     #define RESET_TEXT "\033[0m"
-#endif
-#define LOGE(format, ...) printf("[E] " RED_TEXT format RESET_TEXT, ##__VA_ARGS__)
+    #define LOGE(format, ...) printf(RED_TEXT "[E] " format RESET_TEXT, ##__VA_ARGS__)
+  #endif
 #else
-#define LOGE(format, ...) do {} while (0)
+  #define LOGE(format, ...) do {} while (1)
 #endif
 
 

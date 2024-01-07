@@ -224,7 +224,7 @@ static const map_t map_default = {
 
 static const map_t map_empty = {
     .width = 20,
-    .height = 15,
+    .height = 20,
     .name = "empty",
     .collisions = {},
     .collisionCount = 0,
