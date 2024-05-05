@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "snake.h"
 #include "map.h"
+#include "files.h"
 
 
 
@@ -22,7 +23,12 @@ void handleInput_runningState(SDL_Event event)
     switch (event.key.keysym.sym)
     {
     case SDLK_q: // q: quit
-        game.gameState = EXIT;
+        //game.gameState = EXIT;
+        game.gameState = MENU;
+        activeMenu = LEADERBOARD;
+        savePlayerScore(config.leaderboardFilename);
+        readTopScores(config.leaderboardFilename);
+        //showLeaderboard(); 
         break;
 
     case SDLK_p: // p: pause

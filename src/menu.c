@@ -150,7 +150,7 @@ void menuHandleInput(SDL_Event event){
         switch (event.key.keysym.sym)
         {
         case SDLK_q: // q: quit
-            game.gameState = EXIT;
+            // game.gameState = EXIT;
             break;
 
         case SDLK_RETURN:   // Enter key  
@@ -272,7 +272,7 @@ void menuHandleInput(SDL_Event event){
         switch(event.key.keysym.sym)
         {
         case SDLK_q: // q: quit
-            game.gameState = EXIT;
+            // game.gameState = EXIT;
             break;
 
         case SDLK_RETURN:   // go return to settings
@@ -290,7 +290,7 @@ void menuHandleInput(SDL_Event event){
         switch(event.key.keysym.sym)
         {
         case SDLK_q:       // q: quit
-            game.gameState = EXIT;
+            // game.gameState = EXIT;  
             break;
 
         case SDLK_RETURN:   // go to first page
