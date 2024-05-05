@@ -459,7 +459,11 @@ void renderInfoScreen()
 void renderLeaderboard()
 {
 
-    char* menuDescription[] ={"LEADERBOARD"};
+    char* textLines[] ={
+        "LEADERBOARD",
+        "-- ENTER --"
+      };
+    
     char* columnDescriptions[NUM_COLUMNS] = 
     {   
         "Score",
@@ -467,6 +471,7 @@ void renderLeaderboard()
         "Schwierigkeitslevel",
         "Map"
     };
+    
 
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
         SDL_RenderClear(game.renderer);
@@ -477,8 +482,7 @@ void renderLeaderboard()
         
 
         // rendering 'LEADERBOARD'
-        
-        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, menuDescription[0], ttlStorage.textColour[5]);
+        ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[0], ttlStorage.textColour[5]);
         ttlStorage.textTexture = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
 
         SDL_QueryTexture(ttlStorage.textTexture, NULL, NULL, &textWidth, &textHeight);
@@ -488,6 +492,23 @@ void renderLeaderboard()
 
         SDL_FreeSurface(ttlStorage.textSurface);
         SDL_DestroyTexture(ttlStorage.textTexture);
+
+
+        // rendering and print '-- ENTER --' every second cycle
+        if(ttlStorage.showEnter)
+        {
+          ttlStorage.textSurface = TTF_RenderText_Solid(ttlStorage.ptrFont_30, textLines[1], ttlStorage.textColour[5]);
+          ttlStorage.textTexture = SDL_CreateTextureFromSurface(game.renderer, ttlStorage.textSurface);
+
+          ttlStorage.textPrintPosition = (config.windowSize / 1.5);   // print position for ENTER
+          SDL_QueryTexture(ttlStorage.textTexture, NULL, NULL, &textWidth, &textHeight);
+
+          SDL_Rect dstRect = { (config.windowSize - textWidth) / 2, ttlStorage.textPrintPosition, textWidth, textHeight };;
+          SDL_RenderCopy(game.renderer, ttlStorage.textTexture, NULL, &dstRect);
+
+          SDL_FreeSurface(ttlStorage.textSurface);
+          SDL_DestroyTexture(ttlStorage.textTexture);
+        }
 
 
         // rendering columns description
@@ -565,6 +586,7 @@ void renderLeaderboard()
                 SDL_DestroyTexture(numberTexture2);
     }
     SDL_RenderPresent(game.renderer);
+    ttlStorage.lastTimeStep = GET_TIME_MS();
     
 }
 

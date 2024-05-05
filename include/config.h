@@ -3,6 +3,7 @@
 // global configuration macros
 #define MAX_MAP_SIZE 20
 #define MAX_MAP_FIELDS (MAX_MAP_SIZE*MAX_MAP_SIZE)
+#define CYCLE_DURATIONS_MS 400
 
 // logging settings
 //#define DEBUG_OUTPUT_ENABLED

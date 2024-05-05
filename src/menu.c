@@ -81,12 +81,17 @@ void showLeaderboard()
     //--- play crash sound ---
     //play audio file, wait until playback is finished
     //note: when displaying actual leaderboard, the second parameter should be 'false' to not block the program
+    
+    time_t now =  GET_TIME_MS();
 
-    renderLeaderboard();
+    // is used to make ENTER blink
+    if(now > (ttlStorage.lastTimeStep + ttlStorage.cycleDuration))
+    {   
+        ttlStorage.showEnter = !ttlStorage.showEnter;       
+        renderLeaderboard();
+    }
 
     return;
-    
-    
 }
 
 void showPauseScreen()
@@ -145,7 +150,7 @@ void menuHandleInput(SDL_Event event){
         switch (event.key.keysym.sym)
         {
         case SDLK_q: // q: quit
-            game.gameState = EXIT;
+            // game.gameState = EXIT;
             break;
 
         case SDLK_RETURN:   // Enter key  
@@ -235,8 +240,10 @@ void menuHandleInput(SDL_Event event){
                 }  
 
                 // initialize game
+                LOGI("Schwierigkeitslevel: %d\n", ttlStorage.userDifficultyLevel);
                 config.difficulty = ttlStorage.userDifficultyLevel;
-                config.cycleDurationMs = config.cycleDurationMs / sqrt(config.difficulty);
+                config.cycleDurationMs = CYCLE_DURATIONS_MS / sqrt(config.difficulty);
+                
                 gameInit();
           
                 break;
@@ -265,7 +272,7 @@ void menuHandleInput(SDL_Event event){
         switch(event.key.keysym.sym)
         {
         case SDLK_q: // q: quit
-            game.gameState = EXIT;
+            // game.gameState = EXIT;
             break;
 
         case SDLK_RETURN:   // go return to settings
@@ -283,8 +290,18 @@ void menuHandleInput(SDL_Event event){
         switch(event.key.keysym.sym)
         {
         case SDLK_q:       // q: quit
-        case SDLK_RETURN:   
-            game.gameState = EXIT;
+            // game.gameState = EXIT;  
+            break;
+
+        case SDLK_RETURN:   // go to first page
+            game.gameState = MENU;
+            activeMenu = START;
+            ttlStorage.lastTimeStep = 0;
+            ttlStorage.inputStatus = 0;
+            ttlStorage.userDifficultyLevel = 0;
+            ttlStorage.userSelectedMap = 0;
+            game.mapIsLoaded = false;
+            break;
         } 
         break;
     }
